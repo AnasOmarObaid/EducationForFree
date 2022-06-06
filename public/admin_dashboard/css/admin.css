@@ -1,0 +1,24 @@
+
+/*
+    * this to customize the element
+*/
+
+.preloader{
+    background: #645BEB
+}
+
+.nav .active{
+    background-color: #645BEB !important;
+    color: #fff !important;
+}
+
+
+
+[class*=icheck-]>.remove-padding-left
+{
+    padding-left: 0 !important;
+}
+
+.cursor-not{
+    cursor: not-allowed;
+}
