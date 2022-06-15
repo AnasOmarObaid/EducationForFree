@@ -2,7 +2,7 @@
       <x-cards.card>
 
             <x-cards.header>
-                  <h3 class="card-title mr-5">Create roles for user form</h3>
+                  <h3 class="card-title mr-5">edit roles for user form</h3>
             </x-cards.header><!-- card header -->
 
             @csrf
@@ -11,14 +11,15 @@
                   <!-- role name  -->
                   <x-forms.form-group>
                         <x-forms.label>Role Name</x-forms.label>
-                        <x-forms.input type='text' name='name' value="{{ old('name') }}" placeholder="Enter role name"
-                              small='show' />
+                        <x-forms.input type='text' name='name' value="{{ old('name', $role->name) }}"
+                              placeholder="Enter role name" small='show' />
                   </x-forms.form-group><!-- form group -->
 
                   {{-- display description --}}
                   <div class="form-group mb-4">
                         <x-forms.label>Description</x-forms.label>
-                        <x-forms.text-area name='description' rows='2' placeholder='Enter description for the role'>{{ old('description') }}</x-forms.text-area>
+                        <x-forms.text-area name='description' rows='2' placeholder='Enter description for the role'>
+                              {{ old('description', $role->description) }}</x-forms.text-area>
                   </div>
 
                   {{-- permissions --}}
@@ -43,7 +44,7 @@
                                                                   <div class="form-group clearfix">
                                                                         <div class="icheck-primary d-inline">
                                                                               <input type="checkbox"
-                                                                                    {{ is_array(old('permissions')) && in_array($model . '_' . $permission_map, old('permissions')) ? 'checked' : '' }}
+                                                                                    {{ $role->hasPermission($model . '_' . $permission_map) ? 'checked' : '' }}
                                                                                     name="permissions[]"
                                                                                     value="{{ $model . '_' . $permission_map }}"
                                                                                     id="{{ $model . '_' . $permission_map }}">
@@ -86,7 +87,7 @@
 
             {{-- submit button --}}
             <x-cards.footer class="text-right">
-                  <x-forms.submit class="btn-success"> <i class="fa-fw fas fa-check"></i> Create</x-forms.submit>
+                  <x-forms.submit class="btn-success"> <i class="fa-fw fas fa-edit"></i> Edit</x-forms.submit>
             </x-cards.footer><!-- card footer -->
       </x-cards.card>
       </x-admin.forms.form><!-- forms -->

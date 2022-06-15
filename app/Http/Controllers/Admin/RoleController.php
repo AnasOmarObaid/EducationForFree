@@ -72,7 +72,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        //
+        return in_array($role->name, ['super_admin', 'admin', 'teacher', 'student']) ? abort(404) : view('admin.roles.edit', compact('role'));
     } //-- end of method edit
 
     /**
@@ -100,4 +100,12 @@ class RoleController extends Controller
         return $role ?  response()->json(['status' => 'success', 'msg' => 'The role was successfully deleted!'])
             : response()->json(['status' => 'error', 'msg' => 'Some error occurred, try agin'], 404);
     } //-- end of method destroy
+
+
+    public function destroySelected(Request $request)
+    {
+        $ids = $request->get('ids');
+        Role::whereIn('id', explode(',', $ids))->delete();
+        return response()->json(['status' => 'success', 'msg' => 'The selected roles was successfully deleted!']);
+    } //-- end of method destroySelected
 }//-- end role controller

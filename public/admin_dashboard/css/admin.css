@@ -1,24 +1,27 @@
-
 /*
     * this to customize the element
 */
 
-.preloader{
+.preloader {
     background: #645BEB
 }
 
-.nav .active{
+.nav .active {
     background-color: #645BEB !important;
     color: #fff !important;
 }
 
 
 
-[class*=icheck-]>.remove-padding-left
-{
+[class*=icheck-]>.remove-padding-left {
     padding-left: 0 !important;
 }
 
-.cursor-not{
-    cursor: not-allowed;
+.cursor-not {
+    cursor: not-allowed !important;
+}
+
+.my-custom-control-input {
+    width: 1rem !important;
+    height: 1.25rem !important;
 }

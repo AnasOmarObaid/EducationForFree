@@ -1,6 +1,6 @@
 @props(['name', 'rows', 'error' => 'show'])
 <textarea class='form-control @error($name) is-invalid @enderror' name="{{ $name }}" rows="{{ $rows }}"
-      {{ $attributes }}>{{ old("$name") }}</textarea>
+      {{ $attributes }}>{{ $slot }}</textarea>
 
 @if ($error == 'show')
 

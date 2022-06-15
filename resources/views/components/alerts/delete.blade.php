@@ -17,8 +17,6 @@
                   // prevent default
                   event.preventDefault();
 
-
-
                   if (is_able) {
                         // get the route http://educationforfree.online/admin/models/id
                         const url = $(this).closest('form').attr('action');

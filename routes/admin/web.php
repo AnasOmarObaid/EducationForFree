@@ -20,20 +20,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', WelcomeController::class)->name('welcome');
 
 
+// Role controller route
+Route::prefix('/roles')->name('roles.')->controller(RoleController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{role:name}/edit', 'edit')->name('edit');
+    Route::delete('/{role}', 'destroy')->name('destroy');
+    Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
+});
+
 
 // Categories blogs route
 Route::prefix('/categories-blogs')->name('categories.blogs.')->controller(CategoryBlogController::class)->group(function () {
 
     Route::get('/', 'index')->name('index');
     Route::get('/create', 'create')->name('create');
-});
-
-
-// Role controller route
-Route::prefix('/roles')->name('roles.')->controller(RoleController::class)->group(function () {
-
-    Route::get('/', 'index')->name('index');
-    Route::get('/create', 'create')->name('create');
-    Route::post('/store', 'store')->name('store');
-    Route::delete('/{role}', 'destroy')->name('destroy');
 });

@@ -25,10 +25,12 @@
                         <div class="col-12">
                               <x-cards.card>
                                     <x-cards.header>
-                                          <h3 class="card-title mr-5">View all roles for users</h3>
+                                          <h3 class="card-title mr-5">View all roles for users <span
+                                                      class="badge badge-pill badge-success">{{ $roles->count() }}</span>
+                                          </h3>
                                           {{-- make search form --}}
-                                          <div class="d-flex">
-                                                <div class="col-6">
+                                          <div class="d-flex justify-content-end">
+                                                <div class="col-8">
                                                       <x-forms.form action="" class='d-flex'>
 
                                                             <x-forms.input type='search' name='search'
@@ -36,17 +38,23 @@
                                                                   required />
 
                                                             <x-forms.submit
-                                                                  class=" ml-3 btn-info d-flex align-items-center"> <i
+                                                                  class="ml-2 btn-info d-flex align-items-center"> <i
                                                                         class="fa-fw fas fa-search"></i> Search
                                                             </x-forms.submit>
                                                       </x-forms.form><!-- form -->
                                                 </div>
 
                                                 <!--col-6 -->
-                                                <a class="ml-2 btn btn-success text-white  {{ auth()->user()->hasPermission('roles_create')? '': 'disabled cursor-not' }}"
+                                                <a class="btn btn-success text-white  {{ auth()->user()->hasPermission('roles_create')? '': 'cursor-not disabled' }}"
                                                       href="{{ route('admins.roles.create') }}">
                                                       <i class="fa-fw fas fa-plus"></i>
                                                       Create
+                                                </a>
+
+                                                <a class="btn-sweet-select-delete ml-5 btn btn-danger text-white disabled  {{ auth()->user()->hasPermission('roles_delete')? '': 'cursor-not disabled' }}"
+                                                      href="">
+                                                      <i class="fa-fw fas fa-trash-alt"></i>
+                                                      Delete Selected
                                                 </a>
                                           </div>
                                     </x-cards.header><!-- header -->
@@ -59,6 +67,8 @@
                                                 <table class="table table-hover table-striped">
                                                       <thead>
                                                             <tr>
+                                                                  <th><input class='select-all my-custom-control-input'
+                                                                              type="checkbox" /></th>
                                                                   <th style="width: 10px">#</th>
                                                                   <th>Name</th>
                                                                   <th>Description</th>
@@ -72,6 +82,10 @@
                                                       <tbody>
                                                             @foreach ($roles as $role)
                                                                   <tr>
+                                                                        <td><input class='checkbox my-custom-control-input'
+                                                                                    type="checkbox"
+                                                                                    data-id="{{ $role->id }}" />
+                                                                        </td>
                                                                         <td>{{ $loop->index + 1 }}</td>
                                                                         <td>{{ str_replace('_', ' ', $role->name) }}
                                                                         </td>
@@ -98,7 +112,7 @@
                                                                   <td>{{ $role->updated_at->format('M d/y ') }}
                                                                   </td>
                                                                   <td>
-                                                                        <a href="#" class="btn btn-primary"><i
+                                                                        <a href="{{ route('admins.roles.edit', $role) }}" class="btn btn-primary"><i
                                                                                     class="fas fa-edit"></i>Edit</a>
 
                                                                         <form class='d-inline' method='post'
@@ -119,6 +133,9 @@
                               </x-cards.body><!-- body -->
 
                         </x-cards.card><!-- card -->
+                        <div class="float-left">
+                              <span>showing {{ $roles->count() }} from {{ $roles->total() }}</span>
+                        </div>
                         <div class="float-right">
                               {{ $roles->appends(['search' => request('search')])->links() }}
                         </div>
@@ -126,11 +143,14 @@
             </div>
             <!--row -->
       </div><!-- container-fluid -->
-
 </section>
-<!--section -->
-<!-- /.content -->
+
+
+
 @section('scripts')
+      <!-- delete single element -->
       <x-alerts.delete permission="roles_delete" />
+      <!-- delete selected element -->
+      <x-alerts.delete-selected permission="roles_delete" />
 @endsection
 </x-admin.app>
