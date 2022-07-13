@@ -2,7 +2,7 @@
 @if ($errors->any())
       <script>
             Swal.fire({
-                  position: 'top',
+                  position: 'top-end',
                   icon: 'error',
                   title: "{{ $merror }}",
                   showConfirmButton: true,
@@ -26,7 +26,7 @@
 @if (session('success'))
       <script>
             Swal.fire({
-                  position: 'top',
+                  position: 'top-end',
                   icon: 'success',
                   title: "{{ session('success') }}",
                   showConfirmButton: true,

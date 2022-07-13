@@ -4,7 +4,7 @@
 <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
-      <meta name ="csrf_token" content = "{{ csrf_token() }}">
+      <meta name="csrf_token" content="{{ csrf_token() }}">
       <title>EducationForFree | {{ $title }}</title>
 
       <!-- Google Font: Source Sans Pro -->
@@ -25,39 +25,36 @@
       <!-- overlayScrollbars -->
       <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
-      <!-- admin cusome css -->
+      <!-- select2 style-->
+      <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+
+      @yield('styles')
+
+      <!-- admin custome css -->
       <link rel="stylesheet" href="{{ asset('admin_dashboard/css/admin.css') }}">
 
       <!-- sweetalert2 -->
       <script src="{{ asset('plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-
-
 
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
       <div class="wrapper">
 
-            {{-- sweet alert2 --}}
             <x-alerts.alert />
 
-            {{-- preloader --}}
             <x-preloader />
 
-            <!-- Navbar -->
             <x-admin.navbar.navbar />
 
-            <!-- Main Sidebar Container -->
             <x-admin.navbar.slider />
 
-            <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
                   {{ $slot }}
             </div>
-            <!-- /.content-wrapper -->
 
-            {{-- footer --}}
             <x-admin.footer />
+
       </div>
       <!-- ./wrapper -->
 
@@ -74,10 +71,19 @@
 
       <!-- overlayScrollbars -->
       <script src="{{ asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+      <!-- overlayScrollbars -->
 
       <!-- AdminLTE App -->
       <script src="{{ asset('admin_dashboard/js/adminlte.min.js') }}"></script>
 
+      <!-- select2 -->
+      <script src="{{ asset('plugins/select2/js/select2.min.js') }}"></script>
+
+      <script>
+            $(function() {
+                  $('[data-toggle="tooltip"]').tooltip()
+            })
+      </script>
       @yield('scripts')
 </body>
 

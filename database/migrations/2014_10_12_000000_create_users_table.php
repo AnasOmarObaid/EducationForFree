@@ -22,6 +22,10 @@ return new class extends Migration
             $table->rememberToken();
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
+            $table->boolean('activation')->default(true);
+            $table->string('username')->unique();
+            $table->string('address', 50)->nullable();
+            $table->boolean('request_teacher')->default(false);
             $table->timestamps();
         });
     }

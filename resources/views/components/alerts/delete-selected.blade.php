@@ -1,4 +1,4 @@
-@props(['permission'])
+@props(['permission', 'route'])
 <script>
       // document ready
       $(document).ready(function() {
@@ -69,7 +69,7 @@
                                                       "meta[name='csrf_token']")
                                                 .attr('content');
                                           $.ajax({
-                                                url: "{{ route('admins.roles.destroy-selected') }}",
+                                                url: `{{ route($route) }}`,
                                                 type: 'POST',
                                                 headers: {
                                                       'X-CSRF-Token': csrf_token

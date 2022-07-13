@@ -1,4 +1,4 @@
-@props(['type', 'name', 'small' => 'hide', 'error' => 'display'])
+@props(['type', 'name', 'small' => 'hide', 'error' => 'display', 'show_name' => 'roles'])
 <input type="{{ $type }}" name="{{ $name }}"
       class="form-control @error($name) is-invalid @enderror" {{ $attributes }}>
 
@@ -7,7 +7,7 @@
             @error($name)
                   <small class="text-danger">{{ $message }}</small>
             @else
-                  <small>the role name must not exit in database!</small>
+                  <small>the {{ $show_name }} name must not exit in database!</small>
             @enderror
       @endif
 @endif

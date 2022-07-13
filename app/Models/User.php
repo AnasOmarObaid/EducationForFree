@@ -20,6 +20,8 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    //protected $with = 'permissions';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +31,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'activation',
+        'username',
+        'address',
+        'request_teacher'
     ];
 
     /**
@@ -60,4 +66,21 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+    //-------------------- scopes--------------------
+    public function scopeWhenSelected($query, $request)
+    {
+        return $query->when($request->activation, function ($que) use ($request) {
+            return $que->where('activation', $request->activation);
+        })
+            ->when($request->permissions, function ($qu) use ($request) {
+                return $qu->whereHas('permissions', function ($permissions) use ($request) {
+                    return $permissions->whereIn('name', $request->permissions);
+                });
+            })
+            ->when($request->request_teacher, function ($q) use ($request) {
+                return $q->where('request_teacher', $request->request_teacher);
+            });
+    } //-- end scope active
 }

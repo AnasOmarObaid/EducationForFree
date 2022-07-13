@@ -1,11 +1,13 @@
-<x-forms.form action="{{ route('admins.roles.store') }}" method="POST">
+<x-forms.form action="{{ route('admins.roles.update', $role) }}" method="POST">
+    @csrf
+    @method("PUT")
       <x-cards.card>
 
             <x-cards.header>
                   <h3 class="card-title mr-5">edit roles for user form</h3>
             </x-cards.header><!-- card header -->
 
-            @csrf
+
             <x-cards.body>
 
                   <!-- role name  -->

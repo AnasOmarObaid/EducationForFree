@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\admin;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,6 +15,7 @@ class WelcomeController extends Controller
      */
     public function __invoke(Request $request)
     {
+
         return view('admin.welcome');
     } //-- end of method __invoke
 }//-- end class WelcomeController

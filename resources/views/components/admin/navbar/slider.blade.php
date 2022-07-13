@@ -50,6 +50,7 @@
                         </li>
                         {{-- // end Dashboard --}}
 
+
                         {{-- Roles --}}
                         <li class="nav-header">System Roles</li>
                         <li class="nav-item menu-open">
@@ -78,35 +79,73 @@
                               </ul>
                         </li>
 
+                        {{-- Users --}}
+                        <li class="nav-header">System Users</li>
 
-
-                        {{-- categories blogs --}}
-                        <li class="nav-header">Categories Blogs</li>
+                        {{-- student --}}
                         <li class="nav-item menu-open">
                               <a href="" class="nav-link">
-                                    <i class="nav-icon fas fa-ethernet"></i>
+                                    <i class="nav-icon fas fa-user-graduate"></i>
                                     <p>
-                                          Categories Blogs
+                                          Students
                                           <i class="right fas fa-angle-left"></i>
                                     </p>
                               </a>
                               <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                          <a href="{{ route('admins.categories.blogs.index') }}"
-                                                class="nav-link {{ request()->routeIs('admins.categories.blogs.index') ? 'active' : '' }}">
+                                          <a href="{{ route('admins.users.students.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.users.students.index') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-eye"></i>
-                                                <p class="text-whiet">View Categories</p>
+                                                <p class="text-whiet">View Students</p>
                                           </a>
                                     </li>
                                     <li class="nav-item">
-                                          <a href="{{ route('admins.categories.blogs.create') }}"
-                                                class="nav-link {{ request()->routeIs('admins.categories.blogs.create') ? 'active' : '' }}">
+                                          <a href="{{ route('admins.users.students.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.users.students.create') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-plus"></i>
-                                                <p>Create Categories</p>
+                                                <p>Create Students</p>
                                           </a>
                                     </li>
                               </ul>
                         </li>
+
+                        {{-- teachers --}}
+                        <li class="nav-item menu-open">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-user-tie"></i>
+                                    <p>
+                                          Teachers
+                                          <i class="right fas fa-angle-left"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.users.teachers.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.users.teachers.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Teachers</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.users.teachers.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.users.teachers.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p>Create Teachers</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                        {{-- Settings --}}
+                        <li class="nav-header">Settings</li>
+                        <li class="nav-item">
+                              <a href="{{ route('admins.settings.index') }}"
+                                    class="nav-link {{ request()->routeIs('admins.settings.*') ? 'active' : '' }}">
+                                    <i class="nav-icon fas fa-cog"></i>
+                                    <p>Settings</p>
+                              </a>
+                        </li>
+
                         {{-- // end blog categories --}}
                         {{-- <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">

@@ -11,8 +11,6 @@
     color: #fff !important;
 }
 
-
-
 [class*=icheck-]>.remove-padding-left {
     padding-left: 0 !important;
 }
@@ -24,4 +22,37 @@
 .my-custom-control-input {
     width: 1rem !important;
     height: 1.25rem !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 38px !important;
+}
+
+.select2-container .select2-selection--single {
+    height: calc(2.25rem + 2px);
+    padding: 0.46875rem 0.1rem;
+}
+
+.object-fit {
+    object-fit: cover !important;
+}
+
+.width-2 {
+    width: 2.5rem !important;
+}
+
+.height-2 {
+    height: 2.5rem !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background: #17a2b8 !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: #fff;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+    margin-left: 5px !important;
 }

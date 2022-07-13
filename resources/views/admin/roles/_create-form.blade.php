@@ -1,5 +1,5 @@
 <x-forms.form action="{{ route('admins.roles.store') }}" method="POST">
-      <x-cards.card>
+      <x-cards.card class="card-outline card-info">
 
             <x-cards.header>
                   <h3 class="card-title mr-5">Create roles for user form</h3>
@@ -11,14 +11,15 @@
                   <!-- role name  -->
                   <x-forms.form-group>
                         <x-forms.label>Role Name</x-forms.label>
-                        <x-forms.input type='text' name='name' value="{{ old('name') }}" placeholder="Enter role name"
-                              small='show' />
+                        <x-forms.input type='text' name='name' value="{{ old('name') }}"
+                              placeholder="Enter role name" small='show' />
                   </x-forms.form-group><!-- form group -->
 
                   {{-- display description --}}
                   <div class="form-group mb-4">
                         <x-forms.label>Description</x-forms.label>
-                        <x-forms.text-area name='description' rows='2' placeholder='Enter description for the role'>{{ old('description') }}</x-forms.text-area>
+                        <x-forms.text-area name='description' rows='2' placeholder='Enter description for the role'>
+                              {{ old('description') }}</x-forms.text-area>
                   </div>
 
                   {{-- permissions --}}
@@ -89,4 +90,4 @@
                   <x-forms.submit class="btn-success"> <i class="fa-fw fas fa-check"></i> Create</x-forms.submit>
             </x-cards.footer><!-- card footer -->
       </x-cards.card>
-      </x-admin.forms.form><!-- forms -->
+</x-forms.form><!-- forms -->

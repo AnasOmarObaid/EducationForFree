@@ -4,11 +4,22 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreRoleRequest;
+use App\Http\Requests\UpdateRoleRequest;
 use App\Models\Role;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['permission:roles_*'])->only('index');
+        $this->middleware(['permission:roles_create'])->only(['create', 'store']);
+        $this->middleware(['permission:roles_update'])->only(['edit', 'update']);
+        $this->middleware(['permission:roles_delete'])->only(['destroy', 'destroySelected']);
+    } //-- end constructor
+
     /**
      *
      * @return \Illuminate\Http\Response
@@ -52,8 +63,8 @@ class RoleController extends Controller
         // create roles
         $role = Role::create([
             'name' => $validated['name'],
-            'description'   => $validated['description'],
-            'display_name'  => ucfirst($validated['name'])
+            'description' => $validated['description'],
+            'display_name' => ucwords(Str::replace('_', ' ', Str::ucfirst($validated['name'])))
         ]);
 
         // attach Permissions
@@ -72,7 +83,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return in_array($role->name, ['super_admin', 'admin', 'teacher', 'student']) ? abort(404) : view('admin.roles.edit', compact('role'));
+        return in_array($role->name, ['super_admin', 'admin', 'teacher', 'student'])
+            ? abort(404) :
+            view('admin.roles.edit', compact('role'));
     } //-- end of method edit
 
     /**
@@ -82,10 +95,23 @@ class RoleController extends Controller
      * @param  \App\Models\Role  $role
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(UpdateRoleRequest $updateRoleRequest, Role $role)
     {
-        //
-    }
+        // get the validated input
+        $validated = $updateRoleRequest->validated();
+
+        // update the role
+        $role->update([
+            'name' => $validated['name'],
+            'description' => $validated['description']
+        ]);
+
+        //syncPermissions to the role
+        $role->syncPermissions($validated['permissions']);
+
+        // redirect
+        return redirect()->route('admins.roles.edit', $role)->with('success', 'Update role successfully');
+    } //-- end of method update
 
     /**
      * Remove the specified resource from storage.

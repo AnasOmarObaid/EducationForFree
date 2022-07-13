@@ -9,7 +9,6 @@ use Illuminate\Support\Carbon;
 class Role extends LaratrustRole
 {
     public $guarded = [];
-    //protected $with = ['permissions'];
 
     //--------------------- attributes --------------------
     public function Name(): Attribute

@@ -87,7 +87,7 @@
                                                                                     data-id="{{ $role->id }}" />
                                                                         </td>
                                                                         <td>{{ $loop->index + 1 }}</td>
-                                                                        <td>{{ str_replace('_', ' ', $role->name) }}
+                                                                        <td>{{ $role->display_name }}
                                                                         </td>
                                                                         <td>{{ Str::limit($role->description, 30) }}
                                                                         </td>
@@ -112,7 +112,8 @@
                                                                   <td>{{ $role->updated_at->format('M d/y ') }}
                                                                   </td>
                                                                   <td>
-                                                                        <a href="{{ route('admins.roles.edit', $role) }}" class="btn btn-primary"><i
+                                                                        <a href="{{ route('admins.roles.edit', $role) }}"
+                                                                              class="btn btn-primary"><i
                                                                                     class="fas fa-edit"></i>Edit</a>
 
                                                                         <form class='d-inline' method='post'
@@ -151,6 +152,6 @@
       <!-- delete single element -->
       <x-alerts.delete permission="roles_delete" />
       <!-- delete selected element -->
-      <x-alerts.delete-selected permission="roles_delete" />
+      <x-alerts.delete-selected permission="roles_delete" route='admins.roles.destroy-selected'/>
 @endsection
 </x-admin.app>
