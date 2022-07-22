@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreStudentRequest;
-use App\Http\Requests\UpdateStudentRequest;
-use App\Http\Requests\UpdateTeacherRequest;
-use App\Notifications\ControlRequestNotify;
+use App\Http\Requests\StoreAdminRequest;
+use App\Http\Requests\UpdateAdminRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
-class TeacherController extends Controller
+class AdminController extends Controller
 {
 
     public function __construct()
     {
         $this->middleware(['permission:users_*'])->only('index');
         $this->middleware(['permission:users_create'])->only(['create', 'store']);
-        $this->middleware(['permission:users_update'])->only(['edit', 'update', 'activation', 'rejectRequest']);
+        $this->middleware(['permission:users_update'])->only(['edit', 'update', 'activation']);
         $this->middleware(['permission:users_delete'])->only(['destroy', 'destroySelected']);
     } //-- end constructor
 
@@ -31,14 +30,17 @@ class TeacherController extends Controller
      */
     public function index(Request $request)
     {
-        $teachers = User::with('permissions')
-            ->whereRoleIs(['teacher'])
+        $admins = User::with('roles')
+            ->whereRoleIs('admin')
             ->whenSelected($request)
             ->latest()
             ->get();
 
-        return view('admin.users.teachers.index', [
-            'teachers' => $teachers,
+        $roles = Role::whereRoleIsNot(['admin', 'super_admin', 'student', 'teacher'])->get();
+
+        return view('admin.users.admins.index', [
+            'admins' => $admins,
+            'roles' => $roles
         ]);
     } //-- end index()
 
@@ -49,7 +51,9 @@ class TeacherController extends Controller
      */
     public function create()
     {
-        return view('admin.users.teachers.create');
+        $roles = Role::whereRoleIsNot(['admin', 'super_admin', 'student', 'teacher'])->get();
+
+        return view('admin.users.admins.create', ['roles' => $roles]);
     } //-- end create()
 
     /**
@@ -58,15 +62,14 @@ class TeacherController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreStudentRequest $request)
+    public function store(StoreAdminRequest $request)
     {
-
         // get validated data
         $validated = $request->validated();
         $username = '@' . Str::before($validated['email'], '@') . '_' . Str::random(4);
 
-        //create teacher
-        $teacher = User::create([
+        //create admin
+        $admin = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password'  => Hash::make($validated['password']),
@@ -75,21 +78,15 @@ class TeacherController extends Controller
             'username'  => $username
         ]);
 
-
-        // attach role for this student
-        $teacher->attachRole('teacher');
-
-        // attachPermissions for this user
-        $teacher->attachPermissions($validated['permissions']);
+        $admin->attachRoles(['admin', $validated['role']]);
 
         // put the profile
         if ($request->hasFile('profile'))
-            $teacher->updateProfilePhoto($request->file('profile'));
+            $admin->updateProfilePhoto($request->file('profile'));
 
         // redirect
-        return redirect()->back()->with('success', 'Create teacher successfully');
+        return redirect()->back()->with('success', 'Create admin successfully');
     } //-- end store()
-
 
     /**
      * Show the form for editing the specified resource.
@@ -99,12 +96,20 @@ class TeacherController extends Controller
      */
     public function edit($username)
     {
-        $teacher = User::with('permissions')
-            ->whereRoleIs('teacher')
+        $roles = Role::with('permissions')
+            ->whereRoleIsNot(['admin', 'super_admin', 'student', 'teacher'])
+            ->get();
+
+
+        $admin = User::with('roles')
+            ->whereRoleIs('admin')
             ->where('username', $username)
             ->first();
 
-        return $teacher ? view('admin.users.teachers.edit', ['teacher' => $teacher]) : abort(404);
+        return view('admin.users.admins.edit', [
+            'admin' => $admin,
+            'roles' => $roles
+        ]);
     } //-- end edit()
 
     /**
@@ -114,25 +119,25 @@ class TeacherController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTeacherRequest $request, User $teacher)
+    public function update(UpdateAdminRequest $request, User $admin)
     {
         // validated data
         $validated = $request->validated();
 
         // check the email to change the username
-        $email = $teacher->email;
-        $username = $teacher->username;
+        $email = $admin->email;
+        $username = $admin->username;
 
         if ($email != $validated['email'])
             $username = '@' . Str::before($validated['email'], '@') . '_' . Str::random(4);
 
-
         // check if there is photo
         if ($request->hasFile('profile'))
-            $teacher->updateProfilePhoto($request->file('profile'));
+            $admin->updateProfilePhoto($request->file('profile'));
+
 
         // update
-        $teacher->update([
+        $admin->update([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'address' => $validated['address'],
@@ -142,10 +147,10 @@ class TeacherController extends Controller
         ]);
 
         // syncPermissions for student
-        $teacher->syncPermissions($validated['permissions']);
+        $admin->syncRoles(['admin' , $validated['role']]);
 
         // redirect
-        return redirect()->route('admins.users.teachers.edit', $teacher)->with('success', 'Update teacher successfully');
+        return redirect()->route('admins.users.admins.edit', $admin)->with('success', 'Update admin successfully');
     } //-- end update()
 
     /**
@@ -154,54 +159,48 @@ class TeacherController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $teacher)
+    public function destroy(User $admin)
     {
         // delete the photo
-        $teacher->deleteProfilePhoto();
+        $admin->deleteProfilePhoto();
 
         // delete the tokens
-        $teacher->tokens->each->delete();
+        $admin->tokens->each->delete();
 
-        // delete the teacher
-        $del = $teacher->delete();
+        // delete the admin
+        $del = $admin->delete();
 
-        return $del ? response()->json(['status' => 'success', 'msg' => 'The teacher was successfully deleted!'])
+        return $del ? response()->json(['status' => 'success', 'msg' => 'The admin was successfully deleted!'])
         : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
-    } //-- end delete()
+    } // end destroy()
 
-    // delete the selected teachers
+    // delete the selected students
     public function destroySelected(Request $request)
     {
         $ids = explode(',', $request->ids);
-        $teachers = User::whereIn('id', $ids)->get();
-        $teachers->each->deleteProfilePhoto();
-        $teachers->each->tokens->each->delete();
-        $teachers->each->delete();
-        return response()->json(['status' => 'success', 'msg' => 'The selected teachers was successfully deleted!']);
-    } //-- end destroySelected()
+        $students = User::whereIn('id', $ids)->get();
+        $students->each->deleteProfilePhoto();
+        $students->each->tokens->each->delete();
+        $students->each->delete();
+        return response()->json(['status' => 'success', 'msg' => 'The selected students was successfully deleted!']);
+    } //--end destroySelected()
 
-
-    // reject the request for this student
-    public function rejectRequest(User $teacher)
+    // make the admin active or not active
+    public function activation(User $admin)
     {
-        //update the request teacher ==> 0
-        $teacher->update(['request_teacher' => 0]);
+        $response = $admin->activation ? $admin->update(['activation' => 0]) : $admin->update(['activation' => 1]);
 
-        $teacher->syncRoles(['student']);
-
-        // send notify for this student to know him he has reject the request to become teacher
-        $teacher->notify(new ControlRequestNotify('Unfortunately ): your not teacher in our platform, read more about be constructor to accepted the request', $teacher->name));
-
-        return response()->json(['status' => 'success', 'msg' => 'The request was rejected!']);
-    } //-- end rejectRequest()
-
-    // make the students active or not active
-    public function activation(User $teacher)
-    {
-        $response = $teacher->activation ? $teacher->update(['activation' => 0]) : $teacher->update(['activation' => 1]);
-
-        return $response ? response()->json(['status' => 'success', 'msg' => 'Successfully changed activation for teacher!'])
+        return $response ? response()->json(['status' => 'success', 'msg' => 'Successfully changed activation for admin!'])
             : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
     } //-- end activate()
 
-}//-- end teachers controller
+
+    // get the permissions for the selected role
+    public function permissions(Role $role)
+    {
+        $permissions = $role->permissions;
+        return view('admin.users.admins._permissions', [
+            'permissions' => $permissions,
+        ]);
+    } //-- end permissions()
+}//-- end AdminController

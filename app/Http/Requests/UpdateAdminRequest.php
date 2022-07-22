@@ -2,11 +2,13 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Actions\Fortify\PasswordValidationRules;
 
-class UpdateTeacherRequest extends FormRequest
+class UpdateAdminRequest extends FormRequest
 {
+    use PasswordValidationRules;
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -24,17 +26,17 @@ class UpdateTeacherRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+       return [
             'name' => 'required|max:15|min:2',
             'email' => [
                 'required',
-                Rule::unique('users')->ignore($this->teacher),
+                Rule::unique('users')->ignore($this->admin),
                 'max:50',
                 'min:2'
             ],
             'address'   => 'nullable|max:20',
             'profile'   => 'nullable|mimes:jpg,jpeg,png',
-            'permissions'   =>  'required|array|min:1',
+            'role'   =>  'required',
             'activation' =>  'required',
         ];
     }

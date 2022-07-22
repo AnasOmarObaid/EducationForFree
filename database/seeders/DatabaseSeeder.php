@@ -14,16 +14,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+            $this->call([
+                LaratrustSeeder::class,
+                UserSeeder::class,
+                QuestionSeeder::class,
+                PostCategorySeeder::class
+            ]);
 
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-        $this->call([
-            LaratrustSeeder::class,
-            UserSeeder::class
-        ]);
     }
 }

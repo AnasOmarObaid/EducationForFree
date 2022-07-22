@@ -1,6 +1,6 @@
 <x-forms.form action="{{ route('admins.roles.update', $role) }}" method="POST">
-    @csrf
-    @method("PUT")
+      @csrf
+      @method('PUT')
       <x-cards.card>
 
             <x-cards.header>
@@ -26,7 +26,7 @@
 
                   {{-- permissions --}}
                   <div class="row">
-                        <?php $models = ['roles', 'users', 'category_blogs', 'posts']; ?>
+                        <?php $models = ['roles', 'users', 'questions', 'categories-post', 'posts']; ?>
                         @foreach ($models as $model)
                               <div class="col-md-4 mb-3">
                                     <x-cards.card class="{{ $loop->even ? 'card-primary' : 'card-danger' }}">

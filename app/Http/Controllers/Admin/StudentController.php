@@ -153,9 +153,17 @@ class StudentController extends Controller
      */
     public function destroy(User $student)
     {
+        // delete the photo
         $student->deleteProfilePhoto();
+
+        // delete the tokens
         $student->tokens->each->delete();
-        $student->delete();
+
+        // delete the student
+        $del = $student->delete();
+
+        return $del ? response()->json(['status' => 'success', 'msg' => 'The student was successfully deleted!'])
+        : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
     } //-- end destroy()
 
 
@@ -200,7 +208,7 @@ class StudentController extends Controller
         $student->syncRoles(['teacher']);
 
         // send notify for this student to know him he has accepted to become teacher
-        $student->notify(new ControlRequestNotify('congratulations :) your request has been accepted, click on the button below to get started'));
+        $student->notify(new ControlRequestNotify('congratulations :) your request has been accepted, click on the button below to get started', $student->name));
 
         // return json response
         return response()->json(['status' => 'success', 'msg' => 'The request was successfully accepted!']);
@@ -213,7 +221,7 @@ class StudentController extends Controller
         $student->update(['request_teacher' => 0]);
 
         // send notify for this student to know him he has reject the request to become teacher
-        $student->notify(new ControlRequestNotify('Unfortunately ): your request has reject, read more about be constructor to accepted the request'));
+        $student->notify(new ControlRequestNotify('Unfortunately ): your request has reject, read more about be constructor to accepted the request', $student->name));
 
         return response()->json(['status' => 'success', 'msg' => 'The request was rejected!']);
     } //-- end rejectRequest()

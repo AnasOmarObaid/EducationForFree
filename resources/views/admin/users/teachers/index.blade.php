@@ -157,7 +157,7 @@
                                                                               class="fas fa-user-edit"></i></a>
                                                                   @if (!$teacher->activation)
                                                                         <form class='d-inline' method='post'
-                                                                              action=''>
+                                                                              action='{{ route('admins.users.teachers.activation', $teacher) }}'>
                                                                               @csrf
                                                                               @method('POST')
                                                                               <button type="submit"
@@ -166,11 +166,11 @@
                                                                                     title="activation teacher"
                                                                                     data-activation='active'
                                                                                     class="btn btn-success btn-activation"><i
-                                                                                          class="fas fa-user-check"></i></button>
+                                                                                    class="fas fa-check"></i></button>
                                                                         </form>
                                                                   @else
                                                                         <form class='d-inline' method='post'
-                                                                              action=''>
+                                                                              action='{{ route('admins.users.teachers.activation', $teacher) }}'>
                                                                               @csrf
                                                                               @method('POST')
                                                                               <button type="submit"
@@ -179,9 +179,19 @@
                                                                                     title="make tecaher inactive"
                                                                                     data-activation='not_active'
                                                                                     class="btn btn-danger btn-activation"><i
-                                                                                          class="fas fa-user-alt-slash"></i></button>
+                                                                                    class="fas fa-ban"></i></button>
                                                                         </form>
                                                                   @endif
+
+                                                                  <form action="{{ route('admins.users.teachers.rejectRequest', $teacher) }}" method="post" class='d-inline'>
+                                                                        <button type="submit" name="reject"
+                                                                              value="1" data-toggle="tooltip"
+                                                                              data-placement="bottom"
+                                                                              title=""
+                                                                              class="btn btn-danger btn-accept-control"
+                                                                              data-original-title="reject a teacher"><i
+                                                                                    class="fas fa-user-times"></i></button>
+                                                                  </form>
 
                                                                   <form class='d-inline' method='post'
                                                                         action='{{ route('admins.users.teachers.destroy', $teacher) }}'>
@@ -223,19 +233,6 @@
       </div><!-- container-fluid -->
 </section>
 @section('scripts')
-      <!-- datatable -->
-      <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
-      <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
-      <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
       <script>
             $(function() {
                   $("#tecaher_table").DataTable({
@@ -261,5 +258,7 @@
       <x-alerts.delete-selected permission="users_delete" route='admins.users.teachers.destroy-selected' />
       <!-- make teacher active or not -->
       <x-alerts.activation permission='users_update' />
+      <!-- accept to control request for student -->
+      <x-alerts.accept-control permission='users_update' remove='true'/>
 @endsection
 </x-admin.app>

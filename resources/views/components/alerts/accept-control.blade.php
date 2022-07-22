@@ -1,4 +1,4 @@
-@props(['permission'])
+@props(['permission', 'remove' => 'false'])
 
 <script>
       // check if the user hasPermission to accept request or not
@@ -62,13 +62,17 @@
                                           else {
                                             //change the badge
                                             var badge = $this.parent().closest('tr').children().find('span.teacher_badge');
-                                            console.log(badge);
                                             badge.removeClass('badge-danger');
                                             badge.addClass('badge-primary');
                                             badge.text('student');
+                                            var remove =   `{{ "${remove}" }}`;
+                                            if( remove == 'true')
+                                                $this.closest('tr').remove();
                                             // remove the buttons
                                             $this.parent().closest('tr').children().find('form.accept-form').remove();
                                             $this.remove();
+
+
 
                                           }
                                     }

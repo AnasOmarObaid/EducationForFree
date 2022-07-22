@@ -2,27 +2,27 @@
 
 namespace App\Notifications;
 
+use App\Models\Question;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ControlRequestNotify extends Notification implements ShouldQueue
+class SendAnswerEmailNotify extends Notification implements ShouldQueue
 {
-
     use Queueable;
 
-    protected $messages;
-    protected $name;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($messages, $name)
+
+    protected Question $question;
+
+    public function __construct($question)
     {
-        $this->messages = $messages;
-        $this->name = $name;
+        $this->question = $question;
     }
 
     /**
@@ -33,7 +33,7 @@ class ControlRequestNotify extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', 'mail'];
+        return ['mail'];
     }
 
     /**
@@ -45,24 +45,12 @@ class ControlRequestNotify extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Notification About your request')
-            ->greeting('Hello! ' . $this->name)
-            ->line($this->messages)
+            ->subject('Replay for you question')
+            ->greeting('Hello! ' . $this->question->name)
+            ->line('the question: ' . $this->question->question)
+            ->line('the answer ' . $this->question->answer)
             ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            $this->messages
-        ];
-    }
+    } //-- end toMail()
 
     /**
      * Determine the notification's delivery delay.
@@ -74,7 +62,6 @@ class ControlRequestNotify extends Notification implements ShouldQueue
     {
         return [
             'mail' => now()->addMinutes(1),
-            'database' => now()->addMinutes(1),
         ];
-    }
-}
+    } //-- end withDelay()
+}//-- end SendAnswerEmailNotify

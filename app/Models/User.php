@@ -79,8 +79,21 @@ class User extends Authenticatable
                     return $permissions->whereIn('name', $request->permissions);
                 });
             })
+
+            ->when($request->roles, function ($qo) use ($request) {
+                return $qo->whereHas('roles', function ($roles) use ($request) {
+                    return $roles->whereIn('name', $request->roles);
+                });
+            })
             ->when($request->request_teacher, function ($q) use ($request) {
                 return $q->where('request_teacher', $request->request_teacher);
             });
     } //-- end scope active
+
+
+    //--------------------- relationship --------------------
+    public function PostCategory()
+    {
+        return $this->hasMany(PostCategory::class);
+    } // -- end postCategory()
 }

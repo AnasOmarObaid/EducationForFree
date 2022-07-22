@@ -14,7 +14,7 @@ class UpdateStudentRequest extends FormRequest
      */
     public function authorize()
     {
-        return auth()->user()->hasPermission('users_create');
+        return auth()->user()->hasPermission('users_update');
     }
 
     /**

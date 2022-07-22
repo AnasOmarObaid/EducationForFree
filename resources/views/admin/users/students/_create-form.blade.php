@@ -78,7 +78,7 @@
                         </x-cards.header><!-- card header -->
                         <x-cards.body>
                               <!-- checkbox -->
-                              <x-forms.label>Student activation</x-forms.label>
+                              <x-forms.label>Student permissions</x-forms.label>
 
                               <div class='row'>
                                     <?php $models = ['comments', 'profiles'];
@@ -133,19 +133,4 @@
                   </x-cards.card>
             </div><!-- col-12 col-md-6 -->
       </div><!-- row -->
-      @section('scripts')
-            <script>
-                  var loadFile = function(event) {
-                        var output = document.getElementById('output');
-                        output.src = URL.createObjectURL(event.target.files[0]);
-                        output.onload = function() {
-                              URL.revokeObjectURL(output.src) // free memory
-                        }
-                  };
-
-                  $(document).ready(function() {
-                        $('.select2').select2();
-                  });
-            </script>
-      @endsection
 </x-forms.form><!-- forms -->

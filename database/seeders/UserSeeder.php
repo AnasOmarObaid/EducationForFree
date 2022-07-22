@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
 
         // admin
         for ($i = 0; $i < 100; $i++) {
-            $user = User::create([
+            $user1 = User::create([
                 'name' => Str::random(10),
                 'email' => Str::random(10) . '@gmail.com',
                 'password' => Hash::make('ao(123456)'),
@@ -40,36 +40,12 @@ class UserSeeder extends Seeder
                 'address'   => Str::random(7)
             ]);
 
-            $user->attachRole('admin');
-        }
-
-        // for student
-        for ($i = 0; $i < 100; $i++) {
-            $user = User::create([
-                'name' => Str::random(10),
-                'email' => Str::random(10) . '@gmail.com',
-                'username' => '@' . 'username_' . $i + 1 . '_' . Str::random(3),
-                'password' => Hash::make('ao(123456)'),
-                'remember_token' => Str::random(10),
-                'email_verified_at' => now(),
-                'address'   => Str::random(7)
-            ]);
-
-            $user->attachRole('student');
-
-            $user->attachPermissions([
-                'comments_create',
-                'comments_read',
-                'comments_update',
-                'comments_delete',
-                'profiles_update',
-                'profiles_delete'
-            ]);
+            $user1->attachRole('admin');
         }
 
         // for teacher
         for ($i = 0; $i < 100; $i++) {
-            $user = User::create([
+            $user3 = User::create([
                 'name' => Str::random(10),
                 'email' => Str::random(10) . '@gmail.com',
                 'username' => '@' . 'username_' . $i + 1 . '_' . Str::random(3),
@@ -80,9 +56,9 @@ class UserSeeder extends Seeder
                 'address'   => Str::random(7)
             ]);
 
-            $user->attachRole('teacher');
+            $user3->attachRole('teacher');
 
-            $user->attachPermissions([
+            $user3->attachPermissions([
                 'comments_create',
                 'comments_read',
                 'comments_update',
@@ -95,6 +71,29 @@ class UserSeeder extends Seeder
                 'categories-post_read',
                 'categories-post_update',
                 'categories-post_delete',
+                'profiles_update',
+                'profiles_delete'
+            ]);
+        }
+        // for student
+        for ($i = 0; $i < 100; $i++) {
+            $user2 = User::create([
+                'name' => Str::random(10),
+                'email' => Str::random(10) . '@gmail.com',
+                'username' => '@' . 'username_' . $i + 1 . '_' . Str::random(3),
+                'password' => Hash::make('ao(123456)'),
+                'remember_token' => Str::random(10),
+                'email_verified_at' => now(),
+                'address'   => Str::random(7)
+            ]);
+
+            $user2->attachRole('student');
+
+            $user2->attachPermissions([
+                'comments_create',
+                'comments_read',
+                'comments_update',
+                'comments_delete',
                 'profiles_update',
                 'profiles_delete'
             ]);

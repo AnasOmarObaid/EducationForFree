@@ -50,10 +50,9 @@
                         </li>
                         {{-- // end Dashboard --}}
 
-
                         {{-- Roles --}}
                         <li class="nav-header">System Roles</li>
-                        <li class="nav-item menu-open">
+                        <li class="nav-item {{ request()->routeIs('admins.roles.*') ? 'menu-open' : '' }}">
                               <a href="" class="nav-link">
                                     <i class="nav-icon fas fa-users-cog"></i>
                                     <p>
@@ -83,7 +82,7 @@
                         <li class="nav-header">System Users</li>
 
                         {{-- student --}}
-                        <li class="nav-item menu-open">
+                        <li class="nav-item {{ request()->routeIs('admins.users.students.*') ? 'menu-open' : '' }}">
                               <a href="" class="nav-link">
                                     <i class="nav-icon fas fa-user-graduate"></i>
                                     <p>
@@ -110,7 +109,7 @@
                         </li>
 
                         {{-- teachers --}}
-                        <li class="nav-item menu-open">
+                        <li class="nav-item {{ request()->routeIs('admins.users.teachers.*') ? 'menu-open' : '' }}">
                               <a href="" class="nav-link">
                                     <i class="nav-icon fas fa-user-tie"></i>
                                     <p>
@@ -131,6 +130,90 @@
                                                 class="nav-link {{ request()->routeIs('admins.users.teachers.create') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-plus"></i>
                                                 <p>Create Teachers</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                        {{-- admins --}}
+                        <li class="nav-item {{ request()->routeIs('admins.users.admins.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-user-shield"></i>
+                                    <p>
+                                          Admins
+                                          <i class="right fas fa-angle-left"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.users.admins.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.users.admins.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Admins</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.users.admins.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.users.admins.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p>Create Admins</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                        {{-- Questions --}}
+                        <li class="nav-header">Users Questions</li>
+                        <li class="nav-item {{ request()->routeIs('admins.questions.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-question"></i>
+                                    <p class="m-0">
+                                          Questions
+                                          <i class="right fas fa-angle-left m-0"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.questions.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.questions.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Questions</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.questions.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.questions.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p>Create Question</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                        {{-- post categories --}}
+                        <li class="nav-header">Post Categories</li>
+                        <li
+                              class="nav-item {{ request()->routeIs('admins.posts-categories.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fab fa-blogger-b"></i>
+                                    <p>
+                                          Post Categories
+                                          <i class="right fas fa-angle-left"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.posts-categories.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.posts-categories.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Categories</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.posts-categories.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.posts-categories.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p>Create Category</p>
                                           </a>
                                     </li>
                               </ul>

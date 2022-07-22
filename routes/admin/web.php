@@ -5,6 +5,9 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\WelcomeController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\QuestionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,7 +61,47 @@ Route::prefix('/users')->name('users.')->group(function () {
         Route::put('/{teacher}', 'update')->name('update');
         Route::delete('/{teacher}', 'destroy')->name('destroy');
         Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
+        Route::post('/{teacher}/reject', 'rejectRequest')->name('rejectRequest');
+        Route::post('/{teacher}/activation', 'activation')->name('activation');
     });
+
+    // group for admins
+    Route::prefix('admins')->name('admins.')->controller(AdminController::class)->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/{admin:username}/edit', 'edit')->name('edit');
+        Route::put('/{admin}/update', 'update')->name('update');
+        Route::post('role/{role}/permissions', 'permissions')->name('roles.permissions');
+        Route::delete('/{admin}', 'destroy')->name('destroy');
+        Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
+        Route::post('/{admin}/activation', 'activation')->name('activation');
+    });
+});
+
+// group for question
+Route::prefix('/questions')->name('questions.')->controller(QuestionController::class)->group(function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('{question}/edit', 'edit')->name('edit');
+    Route::put('/{question}/update', 'update')->name('update');
+    Route::delete('/{question}', 'destroy')->name('destroy');
+    Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
+    Route::post('/{question}/read', 'read')->name('read');
+    Route::post('/{question}/replay', 'replay')->name('replay');
+});
+
+// group for posts Categories
+Route::prefix('/posts-categories')->name('posts-categories.')->controller(PostCategoryController::class)->group(function(){
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{postCategory:name}/edit', 'edit')->name('edit');
+    Route::put('/{postCategory:name}/update', 'update')->name('update');
+    Route::delete('/{postCategory}', 'destroy')->name('destroy');
+    Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
+    Route::post('/{postCategory}/activation', 'activation')->name('activation');
 });
 
 // setting route

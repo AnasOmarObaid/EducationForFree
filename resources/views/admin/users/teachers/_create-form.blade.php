@@ -78,7 +78,7 @@
                         </x-cards.header><!-- card header -->
                         <x-cards.body>
                               <!-- checkbox -->
-                              <x-forms.label>Teacher activation</x-forms.label>
+                              <x-forms.label>Teacher permissions</x-forms.label>
 
                               <div class='row'>
                                     <?php $models = ['comments', 'categories-post', 'posts', 'profiles'];

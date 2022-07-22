@@ -15,9 +15,10 @@ return [
         'super_admin' => [
             'roles' => 'c,r,u,d',
             'users' => 'c,r,u,d',
-            'comments' => 'c,r,u,d',
+            'questions' => 'c,r,u,d',
             'categories-post' => 'c,r,u,d',
             'posts' => 'c,r,u,d',
+            'comments' => 'c,r,u,d',
             'profiles' => 'u,d'
 
         ],

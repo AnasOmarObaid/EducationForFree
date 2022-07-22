@@ -1,10 +1,5 @@
 <x-admin.app title='Users | Students | View'>
-      @section('styles')
-            <!-- DataTables -->
-            <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-            <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-      @endsection
+
       <!-- Content Header (Page header) -->
       <div class="content-header">
             <div class="container-fluid">
@@ -186,7 +181,7 @@
                                                                                     title="activation student"
                                                                                     data-activation='active'
                                                                                     class="btn btn-success btn-activation"><i
-                                                                                          class="fas fa-user-check"></i></button>
+                                                                                          class="fas fa-check"></i></button>
                                                                         </form>
                                                                   @else
                                                                         <form class='d-inline' method='post'
@@ -199,16 +194,18 @@
                                                                                     title="make student inactive"
                                                                                     data-activation='not_active'
                                                                                     class="btn btn-danger btn-activation"><i
-                                                                                          class="fas fa-user-alt-slash"></i></button>
+                                                                                          class="fas fa-ban"></i></button>
                                                                         </form>
                                                                   @endif
 
                                                                   @if ($student->request_teacher)
-                                                                        <form class='d-inline accept-form' method='post'
+                                                                        <form class='d-inline accept-form'
+                                                                              method='post'
                                                                               action='{{ route('admins.users.students.accept-control', $student) }}'>
                                                                               @csrf
                                                                               @method('POST')
-                                                                              <button type="submit" name='accept' value='1'
+                                                                              <button type="submit"
+                                                                                    name='accept' value='1'
                                                                                     data-toggle="tooltip"
                                                                                     data-placement="bottom"
                                                                                     title="accept student as teacher"
@@ -220,7 +217,9 @@
                                                                               action='{{ route('admins.users.students.accept-control', $student) }}'>
                                                                               @csrf
                                                                               @method('POST')
-                                                                              <button type="submit" name='reject' value='1'
+                                                                              <button type="submit"
+                                                                                    name='reject'
+                                                                                    value='1'
                                                                                     data-toggle="tooltip"
                                                                                     data-placement="bottom"
                                                                                     title="reject student to be teacher"
@@ -268,19 +267,6 @@
       </div><!-- container-fluid -->
 </section>
 @section('scripts')
-      <!-- datatable -->
-      <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
-      <script src="{{ asset('plugins/jszip/jszip.min.js') }}"></script>
-      <script src="{{ asset('plugins/pdfmake/pdfmake.min.js') }}"></script>
-      <script src="{{ asset('plugins/pdfmake/vfs_fonts.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
-      <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
       <script>
             $(function() {
                   $("#student_table").DataTable({

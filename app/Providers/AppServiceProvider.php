@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
         //use bootstrap in pagination
         Paginator::useBootstrap();
 
-
+        Model::preventLazyLoading($this->app->isProduction());
     }
 }

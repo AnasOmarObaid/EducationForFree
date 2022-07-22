@@ -3,7 +3,6 @@
 <script>
       $(document).ready(function() {
 
-
             // check if the user hasPermission to activate the user or not
             const is_able = `{{ auth()->user()->hasPermission("${permission}") }}`;
 
@@ -44,8 +43,8 @@
                                     $this.removeClass('btn-success');
                                     $this.addClass('btn-danger');
                                     var i = $this.children();
-                                    i.removeClass('fa-user-check');
-                                    i.addClass('fa-user-alt-slash');
+                                    i.removeClass('fa-check');
+                                    i.addClass('fa-ban');
                                     var badge = $this.parent().closest('tr').children().find('span.badge-not_active');
                                     badge.removeClass('badge-not_active');
                                     badge.addClass('badge-active');
@@ -60,8 +59,8 @@
                                     $this.removeClass('btn-danger');
                                     $this.addClass('btn-success');
                                     var i = $this.children();
-                                    i.removeClass('fa-user-alt-slash');
-                                    i.addClass('fa-user-check');
+                                    i.removeClass('fa-ban');
+                                    i.addClass('fa-check');
                                     var badge = $this.parent().closest('tr').children().find('span.badge-active');
                                     badge.removeClass('badge-active');
                                     badge.addClass('badge-not_active');

@@ -105,7 +105,7 @@
                                                                         @endforeach
                                                                   </td>
                                                                   <td><span
-                                                                              class="badge badge-pill badge-success">{{ $role->users_count }}</span>
+                                                                              class="badge badge-pill badge-success"><a href='{{ route('admins.users.admins.index', ['roles[]' => $role->name]) }}' class='text-white'> {{ $role->users_count }} </a></span>
                                                                   </td>
                                                                   <td>{{ $role->created_at->format('M d/y ') }}
                                                                   </td>
