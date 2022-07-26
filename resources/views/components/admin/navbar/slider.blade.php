@@ -192,8 +192,7 @@
 
                         {{-- post categories --}}
                         <li class="nav-header">Post Categories</li>
-                        <li
-                              class="nav-item {{ request()->routeIs('admins.posts-categories.*') ? 'menu-open' : '' }}">
+                        <li class="nav-item {{ request()->routeIs('admins.posts-categories.*') ? 'menu-open' : '' }}">
                               <a href="" class="nav-link">
                                     <i class="nav-icon fab fa-blogger-b"></i>
                                     <p>
@@ -214,6 +213,33 @@
                                                 class="nav-link {{ request()->routeIs('admins.posts-categories.create') ? 'active' : '' }}">
                                                 <i class="nav-icon fas fa-plus"></i>
                                                 <p>Create Category</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                        {{-- posts --}}
+                        <li class="nav-item {{ request()->routeIs('admins.posts.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-clipboard"></i>
+                                    <p>
+                                          Posts
+                                          <i class="right fas fa-angle-left"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.posts.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.posts.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View posts</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.posts.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.posts.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p>Create post</p>
                                           </a>
                                     </li>
                               </ul>

@@ -92,8 +92,13 @@ class User extends Authenticatable
 
 
     //--------------------- relationship --------------------
-    public function PostCategory()
+    public function postCategories()
     {
         return $this->hasMany(PostCategory::class);
     } // -- end postCategory()
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    } //-- end posts()
 }

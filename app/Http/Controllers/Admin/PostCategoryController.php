@@ -19,11 +19,12 @@ class PostCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $users = User::has('PostCategory')->get();
+        $users = User::has('postCategories')->get();
 
-        $posts_categories = PostCategory::with(['User'])
+        $posts_categories = PostCategory::with(['user'])
             ->whenSelected($request)
             ->latest()
+            ->withCount('posts')
             ->get();
 
         return view('admin.posts-categories.index', [

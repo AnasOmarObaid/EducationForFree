@@ -96,7 +96,7 @@
                                                             <th>Name</th>
                                                             <th>Email</th>
                                                             <th>username</th>
-                                                            <th>Address</th>
+                                                            <th>Posts</th>
                                                             <th>Status</th>
                                                             <th>Joineded</th>
                                                             <th>Actions</th>
@@ -117,7 +117,16 @@
                                                                   <td>{{ Str::limit($teacher->name, 7) }}</td>
                                                                   <td>{{ $teacher->email }}</td>
                                                                   <td>{{ $teacher->username }}</td>
-                                                                  <td>{{ Str::limit($teacher->address, 7) }}</td>
+
+                                                                  <td>
+                                                                        <span class='badge badge-pill badge-primary'>
+                                                                              <a class='text-white'
+                                                                                    href="{{ route('admins.posts.index', ['usernames[]' => $teacher->username]) }}"
+                                                                                    target="_blank">
+                                                                                    {{ $teacher->posts_count }}</a>
+                                                                        </span>
+                                                                  </td>
+
                                                                   <td>
                                                                         @if ($teacher->activation)
                                                                               <span data-activation='badge-active'
@@ -166,7 +175,7 @@
                                                                                     title="activation teacher"
                                                                                     data-activation='active'
                                                                                     class="btn btn-success btn-activation"><i
-                                                                                    class="fas fa-check"></i></button>
+                                                                                          class="fas fa-check"></i></button>
                                                                         </form>
                                                                   @else
                                                                         <form class='d-inline' method='post'
@@ -179,13 +188,15 @@
                                                                                     title="make tecaher inactive"
                                                                                     data-activation='not_active'
                                                                                     class="btn btn-danger btn-activation"><i
-                                                                                    class="fas fa-ban"></i></button>
+                                                                                          class="fas fa-ban"></i></button>
                                                                         </form>
                                                                   @endif
 
-                                                                  <form action="{{ route('admins.users.teachers.rejectRequest', $teacher) }}" method="post" class='d-inline'>
+                                                                  <form action="{{ route('admins.users.teachers.rejectRequest', $teacher) }}"
+                                                                        method="post" class='d-inline'>
                                                                         <button type="submit" name="reject"
-                                                                              value="1" data-toggle="tooltip"
+                                                                              value="1"
+                                                                              data-toggle="tooltip"
                                                                               data-placement="bottom"
                                                                               title=""
                                                                               class="btn btn-danger btn-accept-control"
@@ -217,7 +228,7 @@
                                                       <th>Name</th>
                                                       <th>Email</th>
                                                       <th>username</th>
-                                                      <th>Address</th>
+                                                      <th>Posts</th>
                                                       <th>Status</th>
                                                       <th>Joineded</th>
                                                       <th>Actions</th>
@@ -259,6 +270,6 @@
       <!-- make teacher active or not -->
       <x-alerts.activation permission='users_update' />
       <!-- accept to control request for student -->
-      <x-alerts.accept-control permission='users_update' remove='true'/>
+      <x-alerts.accept-control permission='users_update' remove='true' />
 @endsection
 </x-admin.app>

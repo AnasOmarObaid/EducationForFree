@@ -34,6 +34,7 @@ class TeacherController extends Controller
         $teachers = User::with('permissions')
             ->whereRoleIs(['teacher'])
             ->whenSelected($request)
+            ->withCount('posts')
             ->latest()
             ->get();
 
@@ -166,7 +167,7 @@ class TeacherController extends Controller
         $del = $teacher->delete();
 
         return $del ? response()->json(['status' => 'success', 'msg' => 'The teacher was successfully deleted!'])
-        : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
+            : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
     } //-- end delete()
 
     // delete the selected teachers
@@ -190,7 +191,8 @@ class TeacherController extends Controller
         $teacher->syncRoles(['student']);
 
         // send notify for this student to know him he has reject the request to become teacher
-        $teacher->notify(new ControlRequestNotify('Unfortunately ): your not teacher in our platform, read more about be constructor to accepted the request', $teacher->name));
+        if (setting('system_notification'))
+            $teacher->notify(new ControlRequestNotify('Unfortunately ): your not teacher in our platform, read more about be constructor to accepted the request', $teacher->name));
 
         return response()->json(['status' => 'success', 'msg' => 'The request was rejected!']);
     } //-- end rejectRequest()

@@ -161,7 +161,8 @@ class QuestionController extends Controller
         ]);
 
         // send email notification
-        $question->notify(new SendAnswerEmailNotify($question));
+        if (setting('system_notification'))
+            $question->notify(new SendAnswerEmailNotify($question));
 
         return $response ? response()->json(['status' => 'success', 'msg' => 'Send answer successfully'])
             : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);

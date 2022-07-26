@@ -15,10 +15,12 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
             $this->call([
+                ImageSeeder::class,
                 LaratrustSeeder::class,
                 UserSeeder::class,
                 QuestionSeeder::class,
-                PostCategorySeeder::class
+                PostCategorySeeder::class,
+                PostSeeder::class
             ]);
 
     }

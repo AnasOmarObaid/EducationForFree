@@ -28,17 +28,25 @@ class PostCategory extends Model
             return $request->activation == 'false' ? $que->where('activation', 'false') : $que->where('activation', 1);
         })
             ->when($request->usernames, function ($qu) use ($request) {
-                return $qu->whereHas('User', function ($user) use ($request) {
+                return $qu->whereHas('user', function ($user) use ($request) {
                     return $user->whereIn('username', $request->usernames);
                 });
             });
     } //-- end scope when selected
 
-
+    public function scopeActive($query, $status)
+    {
+        return $query->where('activation',  $status);
+    } //-- end scope active
 
     //--------------------- relationship --------------------
     public function user()
     {
         return $this->belongsTo(User::class);
-    } //-- end relationship
+    } //-- end user
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    } //-- end posts
 }//-- end class PostCategory

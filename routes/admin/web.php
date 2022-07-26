@@ -7,7 +7,10 @@ use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Models\Post;
+use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,7 +56,7 @@ Route::prefix('/users')->name('users.')->group(function () {
     });
 
     // group for teachers
-    Route::prefix('/teachers')->name('teachers.')->controller(TeacherController::class)->group(function (){
+    Route::prefix('/teachers')->name('teachers.')->controller(TeacherController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
@@ -66,7 +69,7 @@ Route::prefix('/users')->name('users.')->group(function () {
     });
 
     // group for admins
-    Route::prefix('admins')->name('admins.')->controller(AdminController::class)->group(function(){
+    Route::prefix('admins')->name('admins.')->controller(AdminController::class)->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
@@ -80,7 +83,7 @@ Route::prefix('/users')->name('users.')->group(function () {
 });
 
 // group for question
-Route::prefix('/questions')->name('questions.')->controller(QuestionController::class)->group(function(){
+Route::prefix('/questions')->name('questions.')->controller(QuestionController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
@@ -93,7 +96,7 @@ Route::prefix('/questions')->name('questions.')->controller(QuestionController::
 });
 
 // group for posts Categories
-Route::prefix('/posts-categories')->name('posts-categories.')->controller(PostCategoryController::class)->group(function(){
+Route::prefix('/posts-categories')->name('posts-categories.')->controller(PostCategoryController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
@@ -102,6 +105,17 @@ Route::prefix('/posts-categories')->name('posts-categories.')->controller(PostCa
     Route::delete('/{postCategory}', 'destroy')->name('destroy');
     Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
     Route::post('/{postCategory}/activation', 'activation')->name('activation');
+});
+
+
+// group for posts
+Route::prefix('/posts')->name('posts.')->controller(PostController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{post:title}/edit', 'edit')->name('edit');
+    Route::put('/{post:title}/update', 'update')->name('update');
+    Route::post('/{post}/activation', 'activation')->name('activation');
 });
 
 // setting route

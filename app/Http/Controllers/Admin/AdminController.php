@@ -174,7 +174,7 @@ class AdminController extends Controller
         : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
     } // end destroy()
 
-    // delete the selected students
+    // delete thenot selected students
     public function destroySelected(Request $request)
     {
         $ids = explode(',', $request->ids);

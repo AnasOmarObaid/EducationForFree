@@ -1,5 +1,5 @@
 @props(['name', 'rows', 'error' => 'show'])
-<textarea class='form-control @error($name) is-invalid @enderror' name="{{ $name }}" rows="{{ $rows }}"
+<textarea class='form-control @error($name) is-invalid @enderror ckeditor' name="{{ $name }}" rows="{{ $rows }}"
       {{ $attributes }}>{{ $slot }}</textarea>
 
 @if ($error == 'show')
