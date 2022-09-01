@@ -245,6 +245,77 @@
                               </ul>
                         </li>
 
+
+                        {{-- Comments --}}
+                        <li class="nav-header">Users Comments</li>
+                        <li class="nav-item {{ request()->routeIs('admins.comments.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-comments"></i>
+                                    <p class="m-0">
+                                          Comments
+                                          <i class="right fas fa-angle-left m-0"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.comments.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.comments.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Comments</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                          {{-- playlist categories --}}
+                          <li class="nav-header">Playlist Categories</li>
+                          <li class="nav-item {{ request()->routeIs('admins.playlist-categories.*') ? 'menu-open' : '' }}">
+                                <a href="" class="nav-link">
+                                      <i class="nav-icon fas fa-th-list"></i>
+                                      <p class="m-0">
+                                            Playlist Categories
+                                            <i class="right fas fa-angle-left m-0"></i>
+                                      </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                      <li class="nav-item">
+                                            <a href="{{ route('admins.playlist-categories.index') }}"
+                                                  class="nav-link {{ request()->routeIs('admins.playlist-categories.index') ? 'active' : '' }}">
+                                                  <i class="nav-icon fas fa-eye"></i>
+                                                  <p class="text-whiet">View Categories</p>
+                                            </a>
+                                      </li>
+                                </ul>
+                          </li>
+
+                          {{-- educ bits --}}
+                          <li class="nav-header">EducBits</li>
+                          <li class="nav-item {{ request()->routeIs('admins.educ-bits.*') ? 'menu-open' : '' }}">
+                                <a href="" class="nav-link">
+                                      <i class="nav-icon fas fa-video"></i>
+                                      <p class="m-0">
+                                            EducBits
+                                            <i class="right fas fa-angle-left m-0"></i>
+                                      </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                      <li class="nav-item">
+                                            <a href="{{ route('admins.educ-bits.index') }}"
+                                                  class="nav-link {{ request()->routeIs('admins.educ-bits.index') ? 'active' : '' }}">
+                                                  <i class="nav-icon fas fa-eye"></i>
+                                                  <p class="text-whiet">View EducBits</p>
+                                            </a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a href="{{ route('admins.educ-bits.create') }}"
+                                              class="nav-link {{ request()->routeIs('admins.educ-bits.create') ? 'active' : '' }}">
+                                              <i class="nav-icon fas fa-plus"></i>
+                                              <p class="text-whiet">Create EducBits</p>
+                                        </a>
+                                  </li>
+                                </ul>
+                          </li>
+
                         {{-- Settings --}}
                         <li class="nav-header">Settings</li>
                         <li class="nav-item">

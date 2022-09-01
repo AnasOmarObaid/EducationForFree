@@ -67,10 +67,6 @@ class UserSeeder extends Seeder
                 'posts_read',
                 'posts_update',
                 'posts_delete',
-                'categories-post_create',
-                'categories-post_read',
-                'categories-post_update',
-                'categories-post_delete',
                 'profiles_update',
                 'profiles_delete'
             ]);

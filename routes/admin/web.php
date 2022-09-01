@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\WelcomeController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\EducBitController;
+use App\Http\Controllers\Admin\PlaylistCategoryController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\QuestionController;
@@ -115,7 +118,31 @@ Route::prefix('/posts')->name('posts.')->controller(PostController::class)->grou
     Route::post('/store', 'store')->name('store');
     Route::get('/{post:title}/edit', 'edit')->name('edit');
     Route::put('/{post:title}/update', 'update')->name('update');
+    Route::delete('/{post}', 'destroy')->name('destroy');
     Route::post('/{post}/activation', 'activation')->name('activation');
+});
+
+// group for comments
+Route::prefix('/comments')->name('comments.')->controller(CommentController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::delete('/{comment}', 'destroy')->name('destroy');
+    Route::get('/{comment}/show', 'show')->name('show');
+    Route::post('/delete-selected', 'destroySelected')->name('destroy-selected');
+});
+
+// group for playlist category
+Route::prefix('/playlist-categories')->name('playlist-categories.')->controller(PlaylistCategoryController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+});
+
+// group for educ bits
+Route::prefix('/educ-bits')->name('educ-bits.')->controller(EducBitController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/{id}/show', 'show')->name('show');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/empty-episode', 'createEmptyEpisode')->name('createEmptyEpisode');
+    Route::post('/upload-episode', 'uploadEpisode')->name('upload-episode');
 });
 
 // setting route

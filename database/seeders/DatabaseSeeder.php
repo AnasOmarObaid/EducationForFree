@@ -20,7 +20,11 @@ class DatabaseSeeder extends Seeder
                 UserSeeder::class,
                 QuestionSeeder::class,
                 PostCategorySeeder::class,
-                PostSeeder::class
+                PostSeeder::class,
+                CommentSeeder::class,
+                LikeSeeder::class,
+                ReplaySeeder::class,
+                PlaylistCategorySeeder::class,
             ]);
 
     }

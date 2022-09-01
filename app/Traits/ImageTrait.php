@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\Storage;
 
 trait ImageTrait
 {
-    /**
-     * Create image in database and store in folder
-     * @param Request $request|null
-     * @return $this|boolean|string|null
-     */
 
+    /**
+     * storeImage
+     *
+     * @param  mixed $file
+     * @param  mixed $folder
+     * @param  mixed $driver
+     * @return void
+     */
     public function storeImage($file, $folder, $driver = 'public')
     {
         // store the images
@@ -31,17 +34,23 @@ trait ImageTrait
      * @return $this|boolean|string|null
      */
 
-    public function updateImage($file, $image, $path, $folder)
+    /**
+     * updateImage
+     *
+     * @param  mixed $file
+     * @param  mixed $old_image
+     * @param  mixed $path
+     * @param  mixed $folder
+     * @return void
+     */
+    public function updateImage($file, $old_image, $path, $folder)
     {
 
         if ($path == $folder . '/default.png')
             return $this->storeImage($file, $folder);
 
-        // delete the image from disk
-        $this->deleteImage($path);
-
-        // remove the row from database
-        $image->delete();
+        // check if the image is default or not and delete it
+        $this->checkAndDelete($path, $folder . '/default.png', $old_image);
 
         // store the image
         return $this->storeImage($file, $folder);
@@ -49,14 +58,38 @@ trait ImageTrait
 
 
     /**
-     * delete the image
-     * @param Request $request|null
-     * @return $this|boolean|string|null
+     * deleteImage
+     *
+     * @param  mixed $path
+     * @param  mixed $driver
+     * @return void
      */
-
     public function deleteImage($path, $driver = 'public')
     {
         // delete the photo from folder
         return Storage::disk($driver)->delete($path);
     } //-- end deleteImage
+
+
+    /**
+     * checkAndDelete
+     *
+     * @param  mixed $path
+     * @param  mixed $default
+     * @param  mixed $old_image
+     * @return void
+     */
+    public function checkAndDelete($path, $default, $old_image)
+    {
+        // delete the old image from database in any case
+
+        if ($path == $default)
+            return;
+
+        // delete the image from disk
+        $this->deleteImage($path);
+
+        // delete the old image from database
+        $old_image->delete();
+    } //-- end checkDefault
 }//-- end ImageTrait

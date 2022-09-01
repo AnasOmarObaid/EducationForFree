@@ -164,3 +164,72 @@
         transform: rotate(360deg);
     }
 }
+
+.comment-form,
+.replay-form {
+    position: relative;
+    min-height: 140px;
+    margin-bottom: 1rem;
+    background-color: #fff;
+    border: 1px solid;
+    border-color: rgba(100, 91, 235, 0.3);
+    border-width: 2px;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-bottom: 0.5rem;
+}
+
+.replay-form {
+    background-color: #f2faff;
+    margin-left: 3rem;
+    margin-top: -0.3rem;
+}
+
+.comment-form .image,
+.replay-form .image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.comment-form .image span,
+.replay-form .image span {
+    font-size: .55rem;
+    letter-spacing: .55px;
+    margin-top: 5px;
+}
+
+.comment-form .information,
+.replay-form .information {
+    margin-left: 1rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-form .information h3,
+.replay-form .information h3 {
+    font-size: .95rem;
+    margin-bottom: -0.3rem;
+    font-weight: bold;
+}
+
+.comment-form .information small,
+.replay-form .information small {
+    font-size: .55rem;
+    letter-spacing: .55px;
+}
+
+.comment-form .information p,
+.replay-form .information p {
+    margin-top: 0.35rem;
+    font-size: .95rem;
+    margin-bottom: 0;
+    font-weight: 400;
+}

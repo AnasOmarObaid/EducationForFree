@@ -1,4 +1,4 @@
-<x-admin.app title='Posts| View'>
+<x-admin.app title='EducBits| View'>
       @section('styles')
             <!-- DataTables -->
             <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
@@ -10,12 +10,12 @@
             <div class="container-fluid">
                   <div class="row mb-2">
                         <div class="col-sm-6">
-                              <h1 class="m-0">Posts</h1>
+                              <h1 class="m-0">EdicBits</h1>
                         </div><!-- /.col -->
                         <div class="col-sm-6">
                               <ol class="breadcrumb float-sm-right">
                                     <li class="breadcrumb-item"><a href="{{ route('admins.welcome') }}">Home</a></li>
-                                    <li class="breadcrumb-item active">Posts</li>
+                                    <li class="breadcrumb-item active">EducBits</li>
                               </ol>
                         </div><!-- /.col -->
                   </div><!-- /.row -->
@@ -29,10 +29,10 @@
                   <div class="row">
                         <div class="col-12">
                               <x-cards.card>
-                                    <x-cards.header id='post_wrapper'>
+                                    <x-cards.header id='episode_wrapper'>
                                           <div class="row" style="align-items: center;">
                                                 <div class="col-md-12">
-                                                      <h3 class="card-title mr-5">View all posts<span
+                                                      <h3 class="card-title mr-5">View all EducBits<span
                                                                   class="badge badge-pill badge-success"></span>
                                                       </h3>
                                                 </div>
@@ -64,21 +64,12 @@
                                                                               {{ $user->username }}</option>
                                                                   @endforeach
                                                             </select>
+
                                                             <div class="ml-2"></div>
 
-                                                            {{-- category --}}
-                                                            <select name="categories[]"
-                                                                  class="form-control select2 ml-3" multiple>
-
-                                                                  @foreach ($categories as $category)
-                                                                        <option value="{{ $category->name }}"
-                                                                              {{ is_array(request('categories')) && in_array($category->name, request('categories')) ? 'selected' : '' }}>
-                                                                              {{ $category->name }}</option>
-                                                                  @endforeach
-                                                            </select>
-                                                            <div class="ml-2"></div>
                                                             <button type="submit" class='btn btn-info'>
                                                                   filter</button>
+
                                                             <div class="ml-2"></div>
 
                                                       </form>
@@ -87,46 +78,41 @@
                                     </x-cards.header><!-- header -->
 
                                     <x-cards.body class='p-2'>
-                                          <table id="posts_table"
+                                          <table id="episode_table"
                                                 class="table table-bordered table-hover table-striped">
                                                 <thead>
                                                       <tr>
                                                             <th>#</th>
                                                             <th>Poster</th>
                                                             <th>Title</th>
-                                                            <th>Body</th>
-                                                            <th>Author</th>
+                                                            <th>Description</th>
+                                                            <th>User</th>
                                                             <th>Category</th>
-                                                            <th>Comments</th>
-                                                            <th>Activation</th>
+                                                            <th>Status</th>
                                                             <th>Created At</th>
-                                                            <th>Actions</th>
                                                       </tr>
                                                 </thead>
                                                 <tbody>
-                                                      @foreach ($posts as $post)
+                                                      @foreach ($bits as $bit)
                                                             <tr>
 
                                                                   <td>{{ $loop->index + 1 }}</td>
 
-                                                                  <td><img src="{{ $post->getPoster() }}"
-                                                                              alt="post image" width="55"></td>
+                                                                  <td><img src="{{ $bit->episode->getPosterUrl() }}"
+                                                                              alt="episode image" width="55"></td>
 
-                                                                  <td>{{ Str::replace('-', ' ', Str::limit($post->title, 15)) }}
+                                                                  <td>{{ Str::replace('-', ' ', Str::limit($bit->episode->title, 20)) }}
                                                                   </td>
 
-                                                                  <td>{{ Str::limit($post->body, 20) }}
+                                                                  <td>{{ Str::limit($bit->episode->description, 30) }}
                                                                   </td>
 
-                                                                  <td>{{ $post->author->username }}</td>
-                                                                  <td>{{ $post->category->name }}</td>
+                                                                  <td>{{ $bit->user->username }}</td>
+
+                                                                  <td>{{ $bit->category->name }}</td>
+
                                                                   <td>
-                                                                        <span class='badge badge-pill badge-primary'>
-                                                                              {{ $post->comments_count }}
-                                                                        </span>
-                                                                  </td>
-                                                                  <td>
-                                                                        @if ($post->activation)
+                                                                        @if ($bit->activation)
                                                                               <span data-activation='badge-active'
                                                                                     class='badge badge-pill badge-success badge-active'>
                                                                                     active
@@ -139,61 +125,9 @@
                                                                         @endif
                                                                   </td>
 
-                                                                  <td>{{ $post->created_at->format('M d/y') }}
+                                                                  <td>{{ $category->created_at->format('M d/y') }}
                                                                   </td>
 
-                                                                  <td>
-                                                                        {{-- edit the post --}}
-                                                                        <a href="{{ route('admins.posts.edit', $post) }}"
-                                                                              class="btn btn-info" data-toggle="tooltip"
-                                                                              data-placement="bottom"
-                                                                              title="Edit Post"><i
-                                                                                    class="fas fa-edit"></i></a>
-
-                                                                        @if (!$post->activation)
-                                                                              {{-- not active --}}
-                                                                              {{-- activation the post --}}
-                                                                              <form class='d-inline' method='post'
-                                                                                    action='{{ route('admins.posts.activation', $post) }}'>
-                                                                                    @csrf
-                                                                                    @method('POST')
-                                                                                    <button type="submit"
-                                                                                          data-toggle="tooltip"
-                                                                                          data-placement="bottom"
-                                                                                          title="activation post"
-                                                                                          data-activation='active'
-                                                                                          class="btn btn-success btn-activation"><i
-                                                                                                class="fas fa-check"></i></button>
-                                                                              </form>
-                                                                        @else
-                                                                              {{-- activation the post --}}
-                                                                              <form class='d-inline' method='post'
-                                                                                    action='{{ route('admins.posts.activation', $post) }}'>
-                                                                                    @csrf
-                                                                                    @method('POST')
-                                                                                    <button type="submit"
-                                                                                          data-toggle="tooltip"
-                                                                                          data-placement="bottom"
-                                                                                          title="make post inactive"
-                                                                                          data-activation='not_active'
-                                                                                          class="btn btn-danger btn-activation"><i
-                                                                                                class="fas fa-ban"></i></button>
-                                                                              </form>
-                                                                        @endif
-
-                                                                        {{-- delete post --}}
-                                                                        <form class='d-inline' method='post'
-                                                                              action='{{ route('admins.posts.destroy', $post) }}'>
-                                                                              @csrf
-                                                                              @method('DELETE')
-                                                                              <button type="submit"
-                                                                                    data-toggle="tooltip"
-                                                                                    title="delete this post"
-                                                                                    class="btn btn-danger btn-sweet-delete"><i
-                                                                                          class="fas fa-trash-alt"></i></button>
-                                                                        </form>
-
-                                                                  </td>
                                                             </tr>
                                                       @endforeach
                                                 </tbody>
@@ -202,13 +136,11 @@
                                                             <th>#</th>
                                                             <th>Poster</th>
                                                             <th>Title</th>
-                                                            <th>Body</th>
-                                                            <th>Author</th>
+                                                            <th>Description</th>
+                                                            <th>User</th>
                                                             <th>Category</th>
-                                                            <th>Comments</th>
-                                                            <th>Activation</th>
+                                                            <th>Status</th>
                                                             <th>Created At</th>
-                                                            <th>Actions</th>
                                                       </tr>
                                                 </tfoot>
                                           </table>
@@ -224,7 +156,7 @@
       @section('scripts')
             <script>
                   $(function() {
-                        $("#posts_table").DataTable({
+                        $("#episode_table").DataTable({
                               "responsive": true,
                               "lengthChange": true,
                               "autoWidth": false,
@@ -232,7 +164,7 @@
                               "info": true,
                               'pageLength': 25,
                               "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-                        }).buttons().container().appendTo('#post_wrapper .col-md-5:eq(0)');
+                        }).buttons().container().appendTo('#episode_wrapper .col-md-5:eq(0)');
                   });
 
 
@@ -241,9 +173,9 @@
                   });
             </script>
             <!-- delete single element -->
-            <x-alerts.delete permission="posts_delete" />
+            {{-- <x-alerts.delete permission="playlist-categories_delete" /> --}}
             <!-- make post active or not -->
-            <x-alerts.activation permission='posts_update' />
+            {{-- <x-alerts.activation permission='playlist-categories_update' /> --}}
             <!-- delete selected element -->
             {{-- <x-alerts.delete-selected permission="categories-post_delete" route='admins.posts-categories.destroy-selected' /> --}}
       @endsection

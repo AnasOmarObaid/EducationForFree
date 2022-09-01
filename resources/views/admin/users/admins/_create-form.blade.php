@@ -115,6 +115,7 @@
                               <h3 class="card-title mr-5">Admin permissions</h3>
                         </x-cards.header><!-- card header -->
                         <x-cards.body>
+
                               <div class="lds-roller w-100 justify-content-center" id="loaders" style="display: none">
                                     <div></div>
                                     <div></div>
@@ -125,6 +126,7 @@
                                     <div></div>
                                     <div></div>
                               </div>
+
                               <div class="row" id='permissions_area'>
                               </div>
                         </x-cards.body><!-- card body -->
@@ -176,7 +178,7 @@
                               },
                               success: function(data) {
 
-                                    // show the loader
+                                    // hide the loader
                                     $('#loaders').css('display', 'none');
 
                                     $('#permissions_area').html(data);

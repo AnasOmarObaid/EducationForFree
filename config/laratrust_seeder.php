@@ -19,6 +19,7 @@ return [
             'categories-post' => 'c,r,u,d',
             'posts' => 'c,r,u,d',
             'comments' => 'c,r,u,d',
+            'playlist-categories'=> 'c,r,u,d',
             'profiles' => 'u,d'
 
         ],

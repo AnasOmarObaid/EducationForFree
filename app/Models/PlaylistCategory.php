@@ -2,22 +2,18 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PostCategory extends Model
+class PlaylistCategory extends Model
 {
-    protected $fillable = ['name', 'description', 'activation', 'user_id'];
+    protected $fillable = ['name', 'description', 'image', 'activation', 'user_id'];
 
-
-    //--------------------- attributes --------------------
-    public function Name(): Attribute
+    protected $table = 'playlist_categories';
+    //------------------------------ helper
+    public function imageUrl()
     {
-        return Attribute::make(
-            set: fn ($value) => strtolower(str_replace(' ', '-', $value))
-        );
-    } //-- end Name attributes
+        return asset('storage/' . $this->image);
+    } //-- end imagePath()
 
 
     //--------------------- scope --------------------
@@ -46,14 +42,15 @@ class PostCategory extends Model
         return $query->where('activation',  $status);
     } //-- end scope active
 
-    //--------------------- relationship --------------------
+
+    // -----------------------------relationships
+    /**
+     * user
+     *
+     * @return void
+     */
     public function user()
     {
-        return $this->belongsTo(User::class);
-    } //-- end user
-
-    public function posts()
-    {
-        return $this->hasMany(Post::class);
-    } //-- end posts
-}//-- end class PostCategory
+        return $this->belongsTo(User::class, 'user_id');
+    } //-- end user()
+}//-- end of class PlaylistCategory

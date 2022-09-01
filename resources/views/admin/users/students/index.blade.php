@@ -1,5 +1,10 @@
 <x-admin.app title='Users | Students | View'>
-
+      @section('styles')
+            <!-- DataTables -->
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+      @endsection
       <!-- Content Header (Page header) -->
       <div class="content-header">
             <div class="container-fluid">
@@ -24,7 +29,7 @@
                   <div class="row">
                         <div class="col-12">
                               <x-cards.card>
-                                    <x-cards.header id='student_wrapper'>
+                                    <x-cards.header id='studentWrapper'>
                                           <div class="row" style="align-items: center;">
                                                 <div class="col-md-12">
                                                       <h3 class="card-title mr-5">View all students<span
@@ -32,7 +37,7 @@
                                                       </h3>
                                                 </div>
                                                 <div class="col-md-5 mt-3 mb-0"></div>
-                                                <div class="col-md-7 mt-3">
+                                                <div class="col-md-7 mt-3 d-flex ">
                                                       <form action="" class="d-flex" style="align-items: center;">
 
                                                             <select name="activation" class="form-control select2 ml-3">
@@ -93,7 +98,7 @@
                                     </x-cards.header><!-- header -->
 
                                     <x-cards.body class='p-2'>
-                                          <table id="student_table"
+                                          <table id="studentTable"
                                                 class="table table-bordered table-hover table-striped">
                                                 <thead>
                                                       <tr>
@@ -116,6 +121,7 @@
                                                                   <td><input class='checkbox my-custom-control-input'
                                                                               type="checkbox"
                                                                               data-id="{{ $student->id }}" />
+                                                                  </td>
                                                                   <td>{{ $loop->index + 1 }}</td>
                                                                   <td class="">
                                                                         <img class="height-2 width-2 rounded-circle object-fit"
@@ -205,7 +211,8 @@
                                                                               @csrf
                                                                               @method('POST')
                                                                               <button type="submit"
-                                                                                    name='accept' value='1'
+                                                                                    name='accept'
+                                                                                    value='1'
                                                                                     data-toggle="tooltip"
                                                                                     data-placement="bottom"
                                                                                     title="accept student as teacher"
@@ -269,7 +276,7 @@
 @section('scripts')
       <script>
             $(function() {
-                  $("#student_table").DataTable({
+                  $("#studentTable").DataTable({
                         "responsive": true,
                         "lengthChange": true,
                         "autoWidth": false,
@@ -277,7 +284,7 @@
                         "info": true,
                         'pageLength': 25,
                         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-                  }).buttons().container().appendTo('#student_wrapper .col-md-5:eq(0)');
+                  }).buttons().container().appendTo('#studentWrapper .col-md-5:eq(0)');
             });
 
 

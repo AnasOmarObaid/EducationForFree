@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\DB;
 
 class PostCategoryController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware(['permission:categories-post_*'])->only('index');
+        $this->middleware(['permission:categories-post_create'])->only(['create', 'store']);
+        $this->middleware(['permission:categories-post_update'])->only(['edit', 'update', 'activation']);
+        $this->middleware(['permission:categories-post_delete'])->only(['destroy', 'destroySelected']);
+    } //-- end constructor
+
+
     /**
      * Display a listing of the resource.
      *

@@ -13,6 +13,11 @@ class Post extends Model
     protected $fillable = ['title', 'body', 'activation', 'post_category_id', 'user_id', 'image_id'];
 
     //--------------------- attributes --------------------
+    /**
+     * Title
+     *
+     * @return Attribute
+     */
     public function Title(): Attribute
     {
         return Attribute::make(
@@ -20,13 +25,26 @@ class Post extends Model
         );
     } //-- end Name attributes
 
-     //--------------------- helper --------------------
-    public function getPoster(){
+    //--------------------- helper --------------------
+    /**
+     * getPoster
+     *
+     * @return void
+     */
+    public function getPoster()
+    {
         return asset('storage/' . $this->poster->path);
-    }//-- end getPoster()
+    } //-- end getPoster()
 
 
     //--------------------- scope --------------------
+    /**
+     * scopeWhenSelected
+     *
+     * @param  mixed $query
+     * @param  mixed $request
+     * @return void
+     */
     public function scopeWhenSelected($query, $request)
     {
 
@@ -45,17 +63,43 @@ class Post extends Model
     } //-- end whenSelected --------------------
 
     //--------------------- relationship --------------------
+    /**
+     * author
+     *
+     * @return void
+     */
     public function author()
     {
         return $this->belongsTo(User::class, 'user_id');
     } //-- end author
 
+    /**
+     * category
+     *
+     * @return void
+     */
     public function category()
     {
         return $this->belongsTo(PostCategory::class, 'post_category_id');
-    }//-- end category
+    } //-- end category
 
-    public function poster(){
+    /**
+     * poster
+     *
+     * @return void
+     */
+    public function poster()
+    {
         return $this->belongsTo(Image::class, 'image_id');
-    }//-- end poster
+    } //-- end poster
+
+    /**
+     * comments
+     *
+     * @return void
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'parent_id')->where('model', get_class(new Post));
+    }//-- end comments()
 }//-- end class Post

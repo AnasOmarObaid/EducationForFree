@@ -31,9 +31,12 @@
       @yield('styles')
 
       <!-- DataTables -->
-      <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
-      <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
-      <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+      <link rel="stylesheet" type="text/javascript"
+            href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+      <link rel="stylesheet" type="text/javascript"
+            href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+      <link rel="stylesheet" type="text/javascript"
+            href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
       <!-- admin custome css -->
       <link rel="stylesheet" href="{{ asset('admin_dashboard/css/admin.css') }}">
@@ -98,9 +101,16 @@
       <script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
       <script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
       <script>
+            $.ajaxSetup({
+                  headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf_token"]').attr('content')
+                  }
+            });
+
             $(function() {
                   $('[data-toggle="tooltip"]').tooltip()
-            })
+            });
+
             var loadFile = function(event) {
                   var output = document.getElementById('output');
                   output.src = URL.createObjectURL(event.target.files[0]);

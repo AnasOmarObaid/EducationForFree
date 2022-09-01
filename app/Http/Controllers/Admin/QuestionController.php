@@ -12,11 +12,7 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
 
     public function __construct()
     {
@@ -26,7 +22,11 @@ class QuestionController extends Controller
         $this->middleware(['permission:questions_delete'])->only(['destroy', 'destroySelected']);
     } //-- end constructor
 
-
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         $questions = Question::whereReadIs($request)

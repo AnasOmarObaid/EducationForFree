@@ -17,6 +17,14 @@ class PostController extends Controller
 {
     use ImageTrait;
 
+    public function __construct()
+    {
+        $this->middleware(['permission:posts_*'])->only('index');
+        $this->middleware(['permission:posts_create'])->only(['create', 'store', 'activation']);
+        $this->middleware(['permission:posts_update'])->only(['edit', 'update', 'activation']);
+        $this->middleware(['permission:posts_delete'])->only(['destroy', 'destroySelected']);
+    } //-- end constructor
+
     /**
      * Display a listing of the resource.
      *
@@ -27,11 +35,11 @@ class PostController extends Controller
         $users = User::has('posts')->get();
         $categories = PostCategory::has('posts')->get();
 
-        $posts = Post::with(['author', 'category'])
+        $posts = Post::with(['author', 'category', 'comments', 'poster'])
             ->whenSelected($request)
             ->orderBy('id', 'desc')
+            ->withCount('comments')
             ->get();
-
 
         return view('admin.posts.index', [
             'posts' => $posts,
@@ -92,17 +100,6 @@ class PostController extends Controller
     } //-- end store()
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Post  $post
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Post  $post
@@ -138,8 +135,6 @@ class PostController extends Controller
         if ($request->hasFile('image'))
             $validated['image_id'] = $this->updateImage($request->file('image'), $post->poster, $post->poster->path, 'posts');
 
-        
-
         // update the post
         $post->update([
             'title' => $validated['title'],
@@ -150,8 +145,8 @@ class PostController extends Controller
             'post_category_id'  => $validated['post_category_id'],
         ]);
 
-         // return
-         return redirect()->route('admins.posts.edit', $post)->with('success', 'Create post successfully');
+        // return
+        return redirect()->route('admins.posts.edit', $post)->with('success', 'Create post successfully');
     } //-- end update()
 
     /**
@@ -162,13 +157,29 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
-    }
+        $this->checkAndDelete($post->poster->path, 'posts/default.png', $post->poster);
+
+        // delete the comments for this post
+        $post->comments->each->delete();
+
+        // delete the post
+        $response = $post->delete();
+
+        return $response ? response()->json(['status' => 'success', 'msg' => 'The post was successfully deleted!'])
+            : response()->json(['status' => 'error', 'msg' => 'There is error, try again!']);
+    } //-- end destroy()
 
     // make the admin active or not active
+    /**
+     * activation
+     *
+     * @param  mixed $post
+     * @return void
+     */
     public function activation(Post $post)
     {
         $user = $post->author;
+
         $response = $post->activation ? $this->unActivePost($post, $user)
             : $this->activePost($post, $user);
 
@@ -177,6 +188,13 @@ class PostController extends Controller
     } //-- end activate()
 
     // un active post with notification
+    /**
+     * unActivePost
+     *
+     * @param  mixed $post
+     * @param  mixed $user
+     * @return void
+     */
     public function unActivePost($post, $user)
     {
         // update the activation
@@ -190,6 +208,13 @@ class PostController extends Controller
     } //-- end unActivePost()
 
     //active post with notification
+    /**
+     * activePost
+     *
+     * @param  mixed $post
+     * @param  mixed $user
+     * @return void
+     */
     public function activePost($post, $user)
     {
         // activation the post

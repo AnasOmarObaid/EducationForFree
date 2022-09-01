@@ -1,5 +1,10 @@
 <x-admin.app title='Post Categories| View'>
-
+      @section('styles')
+            <!-- DataTables -->
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+      @endsection
       <!-- Content Header (Page header) -->
       <div class="content-header">
             <div class="container-fluid">
@@ -92,7 +97,7 @@
                                                             <tr>
                                                                   <td><input class='checkbox my-custom-control-input'
                                                                               type="checkbox"
-                                                                              data-id="{{ $category->id }}" />
+                                                                              data-id="{{ $category->id }}" /></td>
 
                                                                   <td>{{ $loop->index + 1 }}</td>
 
@@ -106,7 +111,9 @@
                                                                   <td>{{ $category->user->username }}</td>
                                                                   <td>
                                                                         <span class='badge badge-pill badge-primary'>
-                                                                              <a class='text-white' href="{{ route('admins.posts.index', ['categories[]' => $category->name]) }}" target="_blank">
+                                                                              <a class='text-white'
+                                                                                    href="{{ route('admins.posts.index', ['categories[]' => $category->name]) }}"
+                                                                                    target="_blank">
                                                                                     {{ $category->posts_count }}</a>
                                                                         </span>
                                                                   </td>
@@ -230,6 +237,7 @@
             <!-- make category active or not -->
             <x-alerts.activation permission='categories-post_update' />
             <!-- delete selected element -->
-            <x-alerts.delete-selected permission="categories-post_delete" route='admins.posts-categories.destroy-selected' />
+            <x-alerts.delete-selected permission="categories-post_delete"
+                  route='admins.posts-categories.destroy-selected' />
       @endsection
 </x-admin.app>

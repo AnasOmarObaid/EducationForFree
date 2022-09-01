@@ -97,7 +97,7 @@
                                                             <tr>
                                                                   <td><input class='checkbox my-custom-control-input'
                                                                               type="checkbox"
-                                                                              data-id="{{ $admin->id }}" />
+                                                                              data-id="{{ $admin->id }}" /></td>
                                                                   <td>{{ $loop->index + 1 }}</td>
                                                                   <td class="">
                                                                         <img class="height-2 width-2 rounded-circle object-fit"

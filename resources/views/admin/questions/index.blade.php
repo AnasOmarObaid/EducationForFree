@@ -1,5 +1,10 @@
 <x-admin.app title='Questions | View'>
-
+      @section('styles')
+            <!-- DataTables -->
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+      @endsection
       <!-- Content Header (Page header) -->
       <div class="content-header">
             <div class="container-fluid">
@@ -97,7 +102,7 @@
                                                             <tr>
                                                                   <td><input class='checkbox my-custom-control-input'
                                                                               type="checkbox"
-                                                                              data-id="{{ $question->id }}" />
+                                                                              data-id="{{ $question->id }}" /></td>
 
                                                                   <td>{{ $loop->index + 1 }}</td>
 
@@ -108,11 +113,12 @@
 
                                                                   <td>{{ Str::limit($question->question, 15) }}</td>
 
-                                                                  <td id="answerTd_{{$question->id}}">
+                                                                  <td id="answerTd_{{ $question->id }}">
                                                                         @if ($question->answer)
                                                                               {{ Str::limit($question->answer, 35) }}
                                                                         @else
-                                                                              <span data-answer='badge-danger' id="notAnswer_{{ $question->id }}"
+                                                                              <span data-answer='badge-danger'
+                                                                                    id="notAnswer_{{ $question->id }}"
                                                                                     class='badge badge-pill badge-danger'>
                                                                                     not answer
                                                                               </span>

@@ -68,7 +68,7 @@
                               <x-forms.label>Teacher activation</x-forms.label>
 
                               <div class='row'>
-                                    <?php $models = ['comments', 'categories-post', 'posts', 'profiles'];
+                                    <?php $models = ['comments', 'posts', 'profiles'];
                                     $permissions = ['create', 'read', 'update', 'delete']; ?>
                                     @foreach ($models as $model)
                                           @foreach ($permissions as $permission)

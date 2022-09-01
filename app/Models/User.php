@@ -21,6 +21,7 @@ class User extends Authenticatable
     use TwoFactorAuthenticatable;
 
     //protected $with = 'permissions';
+    //protected $with = ['comments'];
 
     /**
      * The attributes that are mass assignable.
@@ -92,13 +93,74 @@ class User extends Authenticatable
 
 
     //--------------------- relationship --------------------
+    /**
+     * postCategories
+     *
+     * @return void
+     */
     public function postCategories()
     {
         return $this->hasMany(PostCategory::class);
     } // -- end postCategory()
 
+
+    /**
+     * playlistCategories
+     *
+     * @return void
+     */
+    public function playlistCategories()
+    {
+        return $this->hasMany(PlaylistCategory::class);
+    } //-- end playlistCategories()
+    /**
+     * posts
+     *
+     * @return void
+     */
     public function posts()
     {
         return $this->hasMany(Post::class);
     } //-- end posts()
+
+    /**
+     * comments
+     *
+     * @return void
+     */
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    } //-- end comments()
+
+    /**
+     * likes
+     *
+     * @return void
+     */
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    } //-- end likes()
+
+
+    /**
+     * replays
+     *
+     * @return void
+     */
+    public function replays()
+    {
+        return $this->hasMany(Replay::class);
+    } //-- end replays()
+
+    /**
+     * educBits
+     *
+     * @return void
+     */
+    public function educBits()
+    {
+        return $this->hasMany(EducBit::class);
+    } //-- end educBits()
 }
