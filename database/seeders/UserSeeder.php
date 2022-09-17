@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
             'address'   => Str::random(7)
         ]);
 
-        $user->attachRole('super_admin');
+        $user->attachRoles(['super_admin', 'admin']);
 
         // admin
         for ($i = 0; $i < 100; $i++) {

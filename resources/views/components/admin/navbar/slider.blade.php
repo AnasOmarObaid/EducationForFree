@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
       <!-- Brand Logo -->
-      <a href="index3.html" class="brand-link">
+      <a href="{{ route('admins.welcome') }}" class="brand-link">
             <img src="{{ asset('admin_dashboard/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                   class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">EducationForFree</span>
@@ -267,54 +267,115 @@
                               </ul>
                         </li>
 
-                          {{-- playlist categories --}}
-                          <li class="nav-header">Playlist Categories</li>
-                          <li class="nav-item {{ request()->routeIs('admins.playlist-categories.*') ? 'menu-open' : '' }}">
-                                <a href="" class="nav-link">
-                                      <i class="nav-icon fas fa-th-list"></i>
-                                      <p class="m-0">
-                                            Playlist Categories
-                                            <i class="right fas fa-angle-left m-0"></i>
-                                      </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                      <li class="nav-item">
-                                            <a href="{{ route('admins.playlist-categories.index') }}"
-                                                  class="nav-link {{ request()->routeIs('admins.playlist-categories.index') ? 'active' : '' }}">
-                                                  <i class="nav-icon fas fa-eye"></i>
-                                                  <p class="text-whiet">View Categories</p>
-                                            </a>
-                                      </li>
-                                </ul>
-                          </li>
+                        {{-- playlist categories --}}
+                        <li class="nav-header">Playlist Categories</li>
+                        <li
+                              class="nav-item {{ request()->routeIs('admins.playlist-categories.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-th-list"></i>
+                                    <p class="m-0">
+                                          Playlist Categories
+                                          <i class="right fas fa-angle-left m-0"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.playlist-categories.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.playlist-categories.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Categories</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
 
-                          {{-- educ bits --}}
-                          <li class="nav-header">EducBits</li>
-                          <li class="nav-item {{ request()->routeIs('admins.educ-bits.*') ? 'menu-open' : '' }}">
-                                <a href="" class="nav-link">
-                                      <i class="nav-icon fas fa-video"></i>
-                                      <p class="m-0">
-                                            EducBits
-                                            <i class="right fas fa-angle-left m-0"></i>
-                                      </p>
-                                </a>
-                                <ul class="nav nav-treeview">
-                                      <li class="nav-item">
-                                            <a href="{{ route('admins.educ-bits.index') }}"
-                                                  class="nav-link {{ request()->routeIs('admins.educ-bits.index') ? 'active' : '' }}">
-                                                  <i class="nav-icon fas fa-eye"></i>
-                                                  <p class="text-whiet">View EducBits</p>
-                                            </a>
-                                      </li>
-                                      <li class="nav-item">
-                                        <a href="{{ route('admins.educ-bits.create') }}"
-                                              class="nav-link {{ request()->routeIs('admins.educ-bits.create') ? 'active' : '' }}">
-                                              <i class="nav-icon fas fa-plus"></i>
-                                              <p class="text-whiet">Create EducBits</p>
-                                        </a>
-                                  </li>
-                                </ul>
-                          </li>
+                        {{-- educ bits --}}
+                        <li class="nav-header">EducBits</li>
+                        <li class="nav-item {{ request()->routeIs('admins.educ-bits.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-video"></i>
+                                    <p class="m-0">
+                                          EducBits
+                                          <i class="right fas fa-angle-left m-0"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.educ-bits.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.educ-bits.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View EducBits</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.educ-bits.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.educ-bits.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p class="text-whiet">Create EducBits</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+
+                        {{-- educ bits --}}
+                        <li class="nav-header">Topics</li>
+                        <li class="nav-item {{ request()->routeIs('admins.topics.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-coins"></i>
+
+                                    <p class="m-0">
+                                          Topics
+                                          <i class="right fas fa-angle-left m-0"></i>
+                                    </p>
+                              </a>
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.topics.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.topics.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Topics</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.topics.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.topics.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p class="text-whiet">Create Topic</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
+
+                        {{-- series --}}
+                        <li class="nav-header">Series</li>
+                        <li class="nav-item {{ request()->routeIs('admins.series.*') ? 'menu-open' : '' }}">
+                              <a href="" class="nav-link">
+                                    <i class="nav-icon fas fa-stream"></i>
+
+                                    <p class="m-0">
+                                          Series
+                                          <i class="right fas fa-angle-left m-0"></i>
+                                    </p>
+                              </a>
+
+                              <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.series.index') }}"
+                                                class="nav-link {{ request()->routeIs('admins.series.index') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-eye"></i>
+                                                <p class="text-whiet">View Series</p>
+                                          </a>
+                                    </li>
+                                    <li class="nav-item">
+                                          <a href="{{ route('admins.series.create') }}"
+                                                class="nav-link {{ request()->routeIs('admins.series.create') ? 'active' : '' }}">
+                                                <i class="nav-icon fas fa-plus"></i>
+                                                <p class="text-whiet">Create Series</p>
+                                          </a>
+                                    </li>
+                              </ul>
+                        </li>
 
                         {{-- Settings --}}
                         <li class="nav-header">Settings</li>

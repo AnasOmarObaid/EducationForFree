@@ -91,9 +91,12 @@ class PostController extends Controller
 
         // send notify for all users about this post
         $users = User::where('id', '!=', auth()->id())->get();
+        $user = User::where('id', '1')->first();
 
+        
         // notify
-        $users->each->notify(new SendPostNotification($post));
+        if (setting('system_notification'))
+            $users->each->notify(new SendPostNotification($post));
 
         // return
         return redirect()->back()->with('success', 'Create post successfully');
@@ -146,7 +149,7 @@ class PostController extends Controller
         ]);
 
         // return
-        return redirect()->route('admins.posts.edit', $post)->with('success', 'Create post successfully');
+        return redirect()->route('admins.posts.edit', $post)->with('success', 'update post successfully');
     } //-- end update()
 
     /**

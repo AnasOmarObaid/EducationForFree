@@ -46,7 +46,7 @@ class SendPostNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable)
     {
         return [
-            'theirs new post from ' . $this->post->author->username . ' is published: ' . route('admins.posts.index')
+            'there is new post from ' . $this->post->author->username . ' is published: ' . route('admins.posts.index')
         ];
     }
 

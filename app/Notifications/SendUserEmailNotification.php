@@ -16,6 +16,7 @@ class SendUserEmailNotification extends Notification implements ShouldQueue
      * Create a new notification instance.
      *
      * @return void
+     *
      */
 
     protected $messages;

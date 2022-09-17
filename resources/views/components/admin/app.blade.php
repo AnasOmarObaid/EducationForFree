@@ -25,6 +25,10 @@
       <!-- overlayScrollbars -->
       <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 
+      <!-- Daterange picker -->
+
+      <link rel="stylesheet" href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}">
+
       <!-- select2 style-->
       <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
 

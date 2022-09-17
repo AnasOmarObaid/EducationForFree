@@ -15,6 +15,36 @@ class PlaylistCategory extends Model
         return asset('storage/' . $this->image);
     } //-- end imagePath()
 
+    /**
+     * getEpisodeCount
+     *
+     * @return void
+     */
+    public function getEpisodeCount(){
+        $count = 0;
+        foreach($this->topics as $topic){
+            foreach($topic->series as $series){
+                $count += $series->getEpisodeCount();
+            }
+        }
+
+        return $count;
+    }
+
+    /**
+     * getSeriesCount
+     *
+     * @return void
+     */
+    public function getSeriesCount(){
+        $count = 0;
+
+        foreach($this->topics as $topic){
+            $count += $topic->series->count();
+        }
+
+        return $count;
+    }
 
     //--------------------- scope --------------------
     public function scopeWhenSelected($query, $request)
@@ -53,4 +83,26 @@ class PlaylistCategory extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     } //-- end user()
+
+    /**
+     * educBits
+     *
+     * @return void
+     */
+    public function educBits()
+    {
+        return $this->hasMany(EducBit::class, 'id');
+    } //-- end educ bits
+
+
+    /**
+     * topics
+     *
+     * @return void
+     */
+    public function topics()
+    {
+        return $this->hasMany(Topic::class, 'id');
+    } //-- end function topics()
+
 }//-- end of class PlaylistCategory

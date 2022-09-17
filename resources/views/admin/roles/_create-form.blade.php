@@ -24,7 +24,7 @@
 
                   {{-- permissions --}}
                   <div class="row">
-                        <?php $models = ['roles', 'users', 'questions','categories-post', 'posts', 'comments', 'playlist-category']; ?>
+                        <?php $models = ['roles', 'users', 'questions','categories-post', 'posts', 'comments', 'playlist-categories', 'educ-bits', 'topics', 'series']; ?>
                         @foreach ($models as $model)
                               <div class="col-md-4 mb-3">
                                     <x-cards.card class="{{ $loop->even ? 'card-primary' : 'card-danger' }}">

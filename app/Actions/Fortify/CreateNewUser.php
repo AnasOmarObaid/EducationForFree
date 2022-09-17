@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Illuminate\Support\Str;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -27,11 +28,15 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
 
+        $username = '@' . Str::before($input['email'], '@') . '_' . Str::random(4);
+
         $user =  User::create([
             'name' => $input['name'],
             'email' => $input['email'],
+            'username' => $username,
             'password' => Hash::make($input['password']),
         ]);
+
         $user->attachRole('student');
 
         return $user;

@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\PlaylistCategoryController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\SectionController;
+use App\Http\Controllers\Admin\SeriesController;
+use App\Http\Controllers\Admin\TopicController;
 use App\Models\Post;
 use App\Models\PostCategory;
 use Illuminate\Support\Facades\Route;
@@ -141,8 +144,40 @@ Route::prefix('/educ-bits')->name('educ-bits.')->controller(EducBitController::c
     Route::get('/{id}/show', 'show')->name('show');
     Route::get('/create', 'create')->name('create');
     Route::post('/store', 'store')->name('store');
+    Route::get('/{bit}/edit', 'edit')->name('edit');
+    Route::put('/{bit}/update', 'update')->name('update');
     Route::get('/empty-episode', 'createEmptyEpisode')->name('createEmptyEpisode');
     Route::post('/upload-episode', 'uploadEpisode')->name('upload-episode');
+    Route::post('/{bit}/activation', 'activation')->name('activation');
+    Route::delete('/{bit}', 'destroy')->name('destroy');
+});
+
+// group for Topics
+Route::prefix('/topics')->name('topics.')->controller(TopicController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::get('/{topic:name}/edit', 'edit')->name('edit');
+    Route::put('/{topic:name}/update', 'update')->name('update');
+    Route::post('/{topic}/activation', 'activation')->name('activation');
+    Route::delete('/{topic}', 'destroy')->name('destroy');
+});
+
+// group for series
+Route::prefix('/series')->name('series.')->controller(SeriesController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/{series}/show', 'show')->name('show');
+    Route::get('/create', 'create')->name('create');
+    Route::post('/store', 'store')->name('store');
+    Route::post('/{series}/activation', 'activation')->name('activation');
+    Route::post('/{section:id}/store/episode', 'storeEpisode')->name('storeEpisode');
+    Route::delete('/{series}', 'destroy')->name('destroy');
+});
+
+// group for section
+Route::prefix('/sections')->name('sections.')->controller(SectionController::class)->group(function () {
+    Route::get('series/{series}/show', 'show')->name('show');
+    Route::post('/store', 'store')->name('store');
 });
 
 // setting route

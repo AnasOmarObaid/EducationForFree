@@ -49,7 +49,7 @@
                                           </div>
                                     </div>
                                     <div class="text-center">
-                                          <img id="output" src="{{ $admin->profile_photo_url }}" class='mt-3' />
+                                          <img id="output" style="max-width:100%" src="{{ $admin->profile_photo_url }}" class='mt-3' />
                                     </div>
                               </x-forms.form-group><!-- form group -->
 

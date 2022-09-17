@@ -64,6 +64,19 @@
                                                                               {{ $user->username }}</option>
                                                                   @endforeach
                                                             </select>
+                                                            <div class="ml-2"></div>
+
+                                                            {{-- categories --}}
+                                                            <select name="categories[]"
+                                                                  class="form-control select2 ml-3" multiple>
+
+                                                                  @foreach ($categories as $category)
+                                                                        <option value="{{ $category->name }}"
+                                                                              {{ is_array(request('categories')) && in_array($category->name, request('categories')) ? 'selected' : '' }}>
+                                                                              {{ $category->name }}</option>
+                                                                  @endforeach
+                                                            </select>
+
 
                                                             <div class="ml-2"></div>
 
@@ -88,8 +101,10 @@
                                                             <th>Description</th>
                                                             <th>User</th>
                                                             <th>Category</th>
+                                                            <th>Comments</th>
                                                             <th>Status</th>
                                                             <th>Created At</th>
+                                                            <th>Action</th>
                                                       </tr>
                                                 </thead>
                                                 <tbody>
@@ -98,7 +113,7 @@
 
                                                                   <td>{{ $loop->index + 1 }}</td>
 
-                                                                  <td><img src="{{ $bit->episode->getPosterUrl() }}"
+                                                                  <td><img src="{{ $bit->getPosterUrl() }}"
                                                                               alt="episode image" width="55"></td>
 
                                                                   <td>{{ Str::replace('-', ' ', Str::limit($bit->episode->title, 20)) }}
@@ -110,6 +125,12 @@
                                                                   <td>{{ $bit->user->username }}</td>
 
                                                                   <td>{{ $bit->category->name }}</td>
+
+                                                                  <td>
+                                                                    <span class='badge badge-pill badge-primary'>
+                                                                          {{ $bit->episode->comments->count() }}
+                                                                    </span>
+                                                              </td>
 
                                                                   <td>
                                                                         @if ($bit->activation)
@@ -125,7 +146,62 @@
                                                                         @endif
                                                                   </td>
 
-                                                                  <td>{{ $category->created_at->format('M d/y') }}
+                                                                  <td>{{ $bit->created_at->format('M d/y') }}
+                                                                  </td>
+
+                                                                  <td>
+
+                                                                        {{-- edit --}}
+                                                                        <a href="{{ route('admins.educ-bits.edit', $bit) }}"
+                                                                              class="btn btn-info" data-toggle="tooltip"
+                                                                              data-placement="bottom"
+                                                                              title="Edit Educ bit"><i
+                                                                                    class="fas fa-edit"></i></a>
+
+
+                                                                        {{-- activation --}}
+                                                                        @if (!$bit->activation)
+                                                                              {{-- not active --}}
+                                                                              {{-- activation the post --}}
+                                                                              <form class='d-inline' method='post'
+                                                                                    action='{{ route('admins.educ-bits.activation', $bit) }}'>
+                                                                                    @csrf
+                                                                                    @method('POST')
+                                                                                    <button type="submit"
+                                                                                          data-toggle="tooltip"
+                                                                                          data-placement="bottom"
+                                                                                          title="activation educ bit"
+                                                                                          data-activation='active'
+                                                                                          class="btn btn-success btn-activation"><i
+                                                                                                class="fas fa-check"></i></button>
+                                                                              </form>
+                                                                        @else
+                                                                              {{-- activation the post --}}
+                                                                              <form class='d-inline' method='post'
+                                                                                    action='{{ route('admins.educ-bits.activation', $bit) }}'>
+                                                                                    @csrf
+                                                                                    @method('POST')
+                                                                                    <button type="submit"
+                                                                                          data-toggle="tooltip"
+                                                                                          data-placement="bottom"
+                                                                                          title="make educ bit inactive"
+                                                                                          data-activation='not_active'
+                                                                                          class="btn btn-danger btn-activation"><i
+                                                                                                class="fas fa-ban"></i></button>
+                                                                              </form>
+                                                                        @endif
+
+                                                                        {{-- delete bits --}}
+                                                                        <form class='d-inline' method='post'
+                                                                              action='{{ route('admins.educ-bits.destroy', $bit) }}'>
+                                                                              @csrf
+                                                                              @method('DELETE')
+                                                                              <button type="submit"
+                                                                                    data-toggle="tooltip"
+                                                                                    title="delete this educbit"
+                                                                                    class="btn btn-danger btn-sweet-delete"><i
+                                                                                          class="fas fa-trash-alt"></i></button>
+                                                                        </form>
                                                                   </td>
 
                                                             </tr>
@@ -139,8 +215,10 @@
                                                             <th>Description</th>
                                                             <th>User</th>
                                                             <th>Category</th>
+                                                            <th>Comments</th>
                                                             <th>Status</th>
                                                             <th>Created At</th>
+                                                            <th>Action</th>
                                                       </tr>
                                                 </tfoot>
                                           </table>
@@ -173,9 +251,9 @@
                   });
             </script>
             <!-- delete single element -->
-            {{-- <x-alerts.delete permission="playlist-categories_delete" /> --}}
+            <x-alerts.delete permission="playlist-categories_delete" />
             <!-- make post active or not -->
-            {{-- <x-alerts.activation permission='playlist-categories_update' /> --}}
+            <x-alerts.activation permission='educ-bits_update' />
             <!-- delete selected element -->
             {{-- <x-alerts.delete-selected permission="categories-post_delete" route='admins.posts-categories.destroy-selected' /> --}}
       @endsection

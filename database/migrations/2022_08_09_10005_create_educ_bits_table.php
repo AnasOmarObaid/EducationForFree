@@ -26,6 +26,10 @@ return new class extends Migration
             $table->unsignedBigInteger('playlist_categories_id');
             $table->foreign('playlist_categories_id')->references('id')->on('playlist_categories')->onDelete('cascade')->onUpdate('cascade');
 
+
+            $table->unsignedBigInteger('image_id')->nullable();
+            $table->foreign('image_id')->references('id')->on('images')->onDelete('SET NULL');
+
             $table->timestamps();
         });
     }

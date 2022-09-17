@@ -22,7 +22,7 @@ class PostCategorySeeder extends Seeder
             PostCategory::create([
                 'name' => $category,
                 'description' => Str::random(20),
-                'user_id' => rand(0, 150)
+                'user_id' => rand(1, 150)
             ]);
         }
     } //-- end of function

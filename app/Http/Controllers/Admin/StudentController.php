@@ -205,7 +205,12 @@ class StudentController extends Controller
     public function acceptRequest(User $student)
     {
         // oky, this student become teacher
-        $student->syncRoles(['teacher']);
+        $student->update([
+            'request_teacher' => 1
+        ]);
+
+        $student->detachRole('student');
+        $student->attachRole('teacher');
 
         // send notify for this student to know him he has accepted to become teacher
         if (setting('system_notification'))
@@ -218,9 +223,9 @@ class StudentController extends Controller
     // reject the request for this student
     public function rejectRequest(User $student)
     {
-        //update the request teacher ==> 0
-        if (setting('system_notification'))
-            $student->update(['request_teacher' => 0]);
+        $student->update([
+            'request_teacher' => 0
+        ]);
 
         // send notify for this student to know him he has reject the request to become teacher
         if (setting('system_notification'))

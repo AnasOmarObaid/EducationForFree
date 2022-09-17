@@ -20,6 +20,9 @@ return [
             'posts' => 'c,r,u,d',
             'comments' => 'c,r,u,d',
             'playlist-categories'=> 'c,r,u,d',
+            'educ-bits' => 'c,r,u,d',
+            'topics' => 'c,r,u,d',
+            'series' => 'c,r,u,d',
             'profiles' => 'u,d'
 
         ],

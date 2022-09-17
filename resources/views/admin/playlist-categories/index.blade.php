@@ -86,6 +86,8 @@
                                                             <th>Name</th>
                                                             <th>Description</th>
                                                             <th>User</th>
+                                                            <th>series</th>
+                                                            <th>episodes</th>
                                                             <th>Status</th>
                                                             <th>Created At</th>
                                                       </tr>
@@ -106,6 +108,10 @@
                                                                   </td>
 
                                                                   <td>{{ $category->user->username }}</td>
+
+                                                                  <td>{{ $category->getSeriesCount() }}</td>
+
+                                                                  <td>{{ $category->getEpisodeCount() }}</td>
 
 
                                                                   <td>

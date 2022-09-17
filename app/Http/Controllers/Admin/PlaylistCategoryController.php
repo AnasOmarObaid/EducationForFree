@@ -24,7 +24,7 @@ class PlaylistCategoryController extends Controller
      */
     public function index(Request $request)
     {
-        $categories = PlaylistCategory::with('user')
+        $categories = PlaylistCategory::with(['user'])
             ->whenSelected($request)
             ->latest()
             ->get();

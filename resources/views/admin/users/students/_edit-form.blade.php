@@ -50,7 +50,7 @@
                                           </div>
                                     </div>
                                     <div class="text-center">
-                                          <img id="output" src="{{ $student->profile_photo_url }}"
+                                          <img id="output" style="max-width:100%" src="{{ $student->profile_photo_url }}"
                                                 class='mt-3' />
                                     </div>
                               </x-forms.form-group><!-- form group -->

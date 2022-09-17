@@ -10,9 +10,7 @@ use App\Models\Like;
 class Comment extends Model
 {
     protected $fillable = ['body', 'parent_id', 'model', 'user_id'];
-    //protected $with = ['replays'];
-
-
+    protected $with = ['replays', 'user'];
 
     //--------------------- scope --------------------
     public function scopeWhenSelected($query, $request)
@@ -59,7 +57,7 @@ class Comment extends Model
      */
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     } //-- end user relationship
 
 

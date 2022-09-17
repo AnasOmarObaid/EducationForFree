@@ -12,6 +12,8 @@ class Post extends Model
 
     protected $fillable = ['title', 'body', 'activation', 'post_category_id', 'user_id', 'image_id'];
 
+    protected $with = ['comments'];
+
     //--------------------- attributes --------------------
     /**
      * Title
@@ -62,6 +64,45 @@ class Post extends Model
             });
     } //-- end whenSelected --------------------
 
+    /**
+     * scopeCategory
+     *
+     * @param  mixed $query
+     * @param  mixed $request
+     * @return void
+     */
+    public function scopeWhenCategory($query, $request)
+    {
+
+        return $query->when($request->category, function ($que) use ($request) {
+            return $que->whereHas('category', function ($category) use ($request) {
+                return $category->where('name', $request->category);
+            });
+        });
+    } //-- end scopeCategory
+
+
+    public function scopeWhenSearch($query, $request)
+    {
+
+        return $query->when($request->search, function ($que) use ($request) {
+           return $que->where('title', 'like', "%$request->search%");
+        });
+    } //-- end scopeCategory
+
+    /**
+     * scopeActive
+     *
+     * @param  mixed $query
+     * @param  mixed $status
+     * @return void
+     */
+    public function scopeActive($query, $status)
+    {
+        return $query->where('activation',  $status);
+    } //-- end scope active
+
+
     //--------------------- relationship --------------------
     /**
      * author
@@ -72,6 +113,7 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     } //-- end author
+
 
     /**
      * category
@@ -100,6 +142,6 @@ class Post extends Model
      */
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'parent_id')->where('model', get_class(new Post));
-    }//-- end comments()
+        return $this->hasMany(Comment::class, 'parent_id')->where('model', get_class(new Post))->orderBy('created_at','DESC');
+    } //-- end comments()
 }//-- end class Post

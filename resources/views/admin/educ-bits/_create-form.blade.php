@@ -9,11 +9,11 @@
                         </x-cards.header><!-- card header -->
                         <x-cards.body>
 
-                              <!-- post name  -->
+                              <!-- title  -->
                               <x-forms.form-group class="mb-4">
                                     <x-forms.label>Episode title</x-forms.label>
-                                    <x-forms.input type='text' name='title' value="{{ old('title') }}"
-                                          id="episode_name" placeholder="Enter post title" />
+                                    <input type='text'name='title' required value="{{ old('title') }}" class="form-control"
+                                          id="episode_name" placeholder="Enter episode title">
                               </x-forms.form-group><!-- form group -->
 
                               {{-- description --}}
@@ -35,9 +35,9 @@
                               <x-forms.form-group class="mb-4">
                                     <x-forms.label>Playlist category</x-forms.label>
                                     <select class="form-control select2" name='playlist_category' style="width: 100%;">
-                                          <option value="1">
-                                                Active
-                                          </option>
+                                          @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                          @endforeach
                                     </select>
                               </x-forms.form-group>
 
@@ -59,7 +59,7 @@
                                     </div>
 
                                     <input type="file" name="poster" id="episode_poster" onchange="loadFile(event)"
-                                          hidden>
+                                          required hidden>
 
                               </x-forms.form-group>
 
@@ -92,7 +92,7 @@
                                           <i class="fas fa-video" style="font-size:80px"></i>
                                           click to upload
                                     </div>
-                                    <input type="file" name="path" id="episode_path"
+                                    <input type="file" name="path" id="episode_path" required
                                           data-url='{{ route('admins.educ-bits.createEmptyEpisode') }}' hidden>
                               </x-forms.form-group>
 
@@ -113,6 +113,12 @@
                                                 role="progressbar">0%</div>
                                     </div>
                               </x-forms.form-group>
+
+                              {{-- publis the educ bit --}}
+                              <x-forms.submit id='publish_btn' class="btn-success float-right" disabled> <i
+                                          class="fa-fw fas fa-plus"></i> Publish
+                              </x-forms.submit>
+                              <input type="hidden" id='episode_id' value="" name="episode_id" required>
                         </x-cards.body>
                   </x-cards.card>
             </div>
@@ -148,7 +154,7 @@
                               // put the name in name field
                               $('#episode_name').val(filename);
 
-                              const url = $(this).data('url');
+                              var url = $(this).data('url');
 
                               // create empty episode
                               $.ajax({
@@ -158,7 +164,6 @@
                                           uploadEpisode(id, episode);
                                     }
                               });
-
 
                         });
 
@@ -197,24 +202,45 @@
                                           return xhr;
                                     },
                                     success: function(episodBeforeEncoding) {
-                                           var interval = setInterval(() => {
+                                          var interval = setInterval(() => {
                                                 $.ajax({
                                                       url: "http://127.0.0.1:8000/admin/educ-bits/" +
                                                             episodBeforeEncoding
                                                             .id + "/show",
                                                       type: "GET",
-                                                      success: function(edpisodeAfterEncoding) {
+                                                      success: function(
+                                                            edpisodeAfterEncoding
+                                                      ) {
 
-                                                        $('#encoding_progress_bar').css(
-                                                            'width', edpisodeAfterEncoding + '%'
-                                                      ).html(edpisodeAfterEncoding + '%');
+                                                            $('#encoding_progress_bar')
+                                                                  .css('width',
+                                                                        edpisodeAfterEncoding +
+                                                                        '%'
+                                                                        )
+                                                                  .html(edpisodeAfterEncoding +
+                                                                        '%'
+                                                                        );
 
-                                                        if(edpisodeAfterEncoding == 100)
-                                                            clearInterval(interval);
+                                                            if (edpisodeAfterEncoding ==
+                                                                  100) {
+                                                                  clearInterval
+                                                                        (
+                                                                              interval);
+                                                                  $('#publish_btn')
+                                                                        .attr('disabled',
+                                                                              false
+                                                                              );
+                                                                  $('#episode_id')
+                                                                        .attr('value',
+                                                                              id
+                                                                              );
+                                                            }
+
                                                       },
                                                 });
 
                                           }, 1000);
+
 
                                     },
                                     error: function(error) {

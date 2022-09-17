@@ -20,5 +20,9 @@ class ImageSeeder extends Seeder
         Image::create([
             'path' => 'posts/default.png'
         ]);
+
+        Image::create([
+            'path' => 'topics/default.png'
+        ]);
     } // -- end of run()
 }//-- end of class ImageSeeder
